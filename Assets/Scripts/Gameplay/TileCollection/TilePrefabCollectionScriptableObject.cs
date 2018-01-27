@@ -11,5 +11,5 @@ public class TilePrefabCollectionScriptableObject : ScriptableObject
     public GameObject TileTJunctionPrefab;
     public GameObject TileEntrancePrefab;
     public GameObject TileExitPrefab;
-    public GameObject TileBlockPrefab;
+    public GameObject TileBlockedPrefab;
 }

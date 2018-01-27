@@ -153,6 +153,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &123943988
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +201,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &203697424
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +249,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &277957573
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +333,10 @@ MonoBehaviour:
   - {fileID: 203697426}
   xSize: 4
   ySize: 4
+  VisibleTopLeft: {fileID: 0}
+  VisibleTopRight: {fileID: 0}
+  VisibleBottomLeft: {fileID: 0}
+  VisibleBottomRight: {fileID: 0}
 --- !u!1 &441542574
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,6 +377,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &485539505
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &622480928
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +473,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &629539084
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +616,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &697332495
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +744,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &887567109
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,6 +792,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &925925621
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +840,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1020670929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1111,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1283842991
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,6 +1159,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1385817239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1207,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1427289996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,6 +1255,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1454136025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,6 +1303,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1534393227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,6 +1425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c1a6ff5af354c7b9610edcd8c9e250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TilePrefabCollection: {fileID: 0}
+  TileConfiguration:
+    Top: 0
+    Bottom: 0
+    Right: 0
+    Left: 0
+    Entrance: 0
+    Exit: 0
 --- !u!1 &1683326779
 GameObject:
   m_ObjectHideFlags: 0
