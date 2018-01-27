@@ -27,14 +27,14 @@ namespace ExitGames.Demos.DemoPunVoice {
                 GameObject o = PrefabsToInstantiate.FirstOrDefault();// PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % 4];
                 //Debug.Log("Instantiating: " + o.name);
                 Vector3 spawnPos = Vector3.zero;
-                if (this.SpawnPosition != null) {
-                    spawnPos = this.SpawnPosition.position;
-                }
-                Vector3 random = Random.insideUnitSphere;
-                random = this.PositionOffset * random.normalized;
-                spawnPos += random;
-                spawnPos.y = 0;
-                Camera.main.transform.position += spawnPos;
+//                if (this.SpawnPosition != null) {
+//                    spawnPos = this.SpawnPosition.position;
+//                }
+//                Vector3 random = Random.insideUnitSphere;
+//                random = this.PositionOffset * random.normalized;
+//                spawnPos += random;
+//                spawnPos.y = 0;
+//                Camera.main.transform.position += spawnPos;
 
                 o = PhotonNetwork.Instantiate(o.name, spawnPos, Quaternion.identity, 0);
                 if (CharacterInstantiated != null) {

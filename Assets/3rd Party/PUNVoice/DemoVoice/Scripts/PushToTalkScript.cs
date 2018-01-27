@@ -50,6 +50,8 @@ namespace ExitGames.Demos.DemoPunVoice
 
         public void OnDisable()
         {
+            PushToTalkOff();
+            pttOn = false;
             CharacterInstantiation.CharacterInstantiated -= CharacterInstantiation_CharacterInstantiated;
         }
         
@@ -177,6 +179,21 @@ namespace ExitGames.Demos.DemoPunVoice
         public void PushToTalkOn()
         {
             PushToTalkOn(0);
+        }
+
+        private bool pttOn;
+        public void TogglePTT()
+        {
+            if (pttOn)
+            {
+                PushToTalkOff();
+                pttOn = false;
+            }
+            else
+            {
+                PushToTalkOn();
+                pttOn = true;
+            }
         }
 
         /// <summary>

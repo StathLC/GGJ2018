@@ -121,7 +121,7 @@ public class NetworkController : Photon.PunBehaviour
     {
         if (PhotonNetwork.JoinOrCreateRoom(name, new RoomOptions()
         {
-            MaxPlayers = 2,
+            MaxPlayers = 4,
             CleanupCacheOnLeave = true,
             IsVisible = true
         }, new TypedLobby()))
