@@ -1,13 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
+    [Header("Parameters")]
     public float TilePositioningCoefficient;
-    public List<TileController> Tiles;
+    public float SlideAnimationDuration;
     public int xSize = 4;
     public int ySize = 4;
+
+    [Header("References")]
+    public List<TileController> Tiles;
     public Transform VisibleTopLeft;
     public Transform VisibleTopRight;
     public Transform VisibleBottomLeft;
@@ -23,22 +28,108 @@ public class GridController : MonoBehaviour
 
     public void MoveColumnUp(int columnIndex)
     {
+        GetTileByIndex(columnIndex, 0).SetVisualPositionY(GetInvisibleBottomYPosition());
+        GetTileByIndex(columnIndex, 0).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(columnIndex, 1).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(columnIndex, 2).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(columnIndex, 3).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
 
+        StartCoroutine(CallbackAfterAnimationDelay(() =>
+        {
+            TileConfiguration tempConfiguration = GetTileByIndex(columnIndex, 0).Configuration;
+
+            GetTileByIndex(columnIndex, 0).Configuration = GetTileByIndex(columnIndex, 1).Configuration;
+            GetTileByIndex(columnIndex, 1).Configuration = GetTileByIndex(columnIndex, 2).Configuration;
+            GetTileByIndex(columnIndex, 2).Configuration = GetTileByIndex(columnIndex, 3).Configuration;
+            GetTileByIndex(columnIndex, 3).Configuration = tempConfiguration;
+
+            GetTileByIndex(columnIndex, 0).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 3).transform, false);
+            GetTileByIndex(columnIndex, 1).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 0).transform, false);
+            GetTileByIndex(columnIndex, 2).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 1).transform, false);
+            GetTileByIndex(columnIndex, 3).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 2).transform, false);
+
+            SetAllTilesVisualGameObjectsLocalPositionsToZero();
+            ReassignAllTilesVisualGameObjects();
+        }));
     }
 
     public void MoveColumnDown(int columnIndex)
     {
+        GetTileByIndex(columnIndex, 3).SetVisualPositionY(GetInvisibleTopYPosition());
+        GetTileByIndex(columnIndex, 0).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(columnIndex, 1).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(columnIndex, 2).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(columnIndex, 3).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
 
-    }
+        StartCoroutine(CallbackAfterAnimationDelay(() =>
+        {
+            TileConfiguration tempConfiguration = GetTileByIndex(columnIndex, 3).Configuration;
 
-    public void MoveRowRight(int rowIndex)
-    {
+            GetTileByIndex(columnIndex, 3).Configuration = GetTileByIndex(columnIndex, 2).Configuration;
+            GetTileByIndex(columnIndex, 2).Configuration = GetTileByIndex(columnIndex, 1).Configuration;
+            GetTileByIndex(columnIndex, 1).Configuration = GetTileByIndex(columnIndex, 0).Configuration;
+            GetTileByIndex(columnIndex, 0).Configuration = tempConfiguration;
 
+            GetTileByIndex(columnIndex, 3).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 0).transform, false);
+            GetTileByIndex(columnIndex, 2).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 3).transform, false);
+            GetTileByIndex(columnIndex, 1).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 2).transform, false);
+            GetTileByIndex(columnIndex, 0).VisualGameObject.transform.SetParent(GetTileByIndex(columnIndex, 1).transform, false);
+
+            SetAllTilesVisualGameObjectsLocalPositionsToZero();
+            ReassignAllTilesVisualGameObjects();
+        }));
     }
 
     public void MoveRowLeft(int rowIndex)
     {
+        GetTileByIndex(0, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(1, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(2, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(3, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
 
+        StartCoroutine(CallbackAfterAnimationDelay(() =>
+        {
+            TileConfiguration tempConfiguration = GetTileByIndex(0, rowIndex).Configuration;
+
+            GetTileByIndex(0, rowIndex).Configuration = GetTileByIndex(1, rowIndex).Configuration;
+            GetTileByIndex(1, rowIndex).Configuration = GetTileByIndex(2, rowIndex).Configuration;
+            GetTileByIndex(2, rowIndex).Configuration = GetTileByIndex(3, rowIndex).Configuration;
+            GetTileByIndex(3, rowIndex).Configuration = tempConfiguration;
+
+            GetTileByIndex(0, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(3, rowIndex).transform, false);
+            GetTileByIndex(1, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(0, rowIndex).transform, false);
+            GetTileByIndex(2, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(1, rowIndex).transform, false);
+            GetTileByIndex(3, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(2, rowIndex).transform, false);
+
+            SetAllTilesVisualGameObjectsLocalPositionsToZero();
+            ReassignAllTilesVisualGameObjects();
+        }));
+    }
+
+    public void MoveRowRight(int rowIndex)
+    {
+        GetTileByIndex(0, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(1, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(2, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
+        GetTileByIndex(3, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
+
+        StartCoroutine(CallbackAfterAnimationDelay(() =>
+        {
+            TileConfiguration tempConfiguration = GetTileByIndex(3, rowIndex).Configuration;
+
+            GetTileByIndex(3, rowIndex).Configuration = GetTileByIndex(2, rowIndex).Configuration;
+            GetTileByIndex(2, rowIndex).Configuration = GetTileByIndex(1, rowIndex).Configuration;
+            GetTileByIndex(1, rowIndex).Configuration = GetTileByIndex(0, rowIndex).Configuration;
+            GetTileByIndex(0, rowIndex).Configuration = tempConfiguration;
+
+            GetTileByIndex(3, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(0, rowIndex).transform, false);
+            GetTileByIndex(2, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(3, rowIndex).transform, false);
+            GetTileByIndex(1, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(2, rowIndex).transform, false);
+            GetTileByIndex(0, rowIndex).VisualGameObject.transform.SetParent(GetTileByIndex(1, rowIndex).transform, false);
+
+            SetAllTilesVisualGameObjectsLocalPositionsToZero();
+            ReassignAllTilesVisualGameObjects();
+        }));
     }
 
     public void ArrangeGridByPlayerIndex(PlayerIndex playerIndex)
@@ -101,29 +192,19 @@ public class GridController : MonoBehaviour
 
     private void InitializeTiles(Level level)
     {
-        AssignTilesIndex();
         SetTilesInitialPosition();
         PopulateTilesByLevel(level);
     }
 
-    private void AssignTilesIndex()
+    private void SetTilesInitialPosition()
     {
         for (int y = 0; y < ySize; y++)
         {
             for (int x = 0; x < xSize; x++)
             {
-                TileController tile = Tiles[x + y * ySize];
-                tile.XIndex = x;
-                tile.YIndex = y;
+                TileController tile = Tiles[x + y * xSize];
+                tile.SetPosition(x, y, TilePositioningCoefficient);
             }
-        }
-    }
-
-    private void SetTilesInitialPosition()
-    {
-        foreach (TileController tile in Tiles)
-        {
-            tile.SetPosition(tile.XIndex, tile.YIndex, TilePositioningCoefficient);
         }
     }
 
@@ -162,6 +243,48 @@ public class GridController : MonoBehaviour
 
     private TileController GetTileByIndex(int xIndex, int yIndex)
     {
-        return Tiles[xIndex + yIndex * ySize];
+        return Tiles[xIndex + yIndex * xSize];
+    }
+
+    private float GetInvisibleTopYPosition()
+    {
+        return -4 * TilePositioningCoefficient;
+    }
+
+    private float GetInvisibleRightXPosition()
+    {
+        return 4 * TilePositioningCoefficient;
+    }
+
+    private float GetInvisibleBottomYPosition()
+    {
+        return 4 * TilePositioningCoefficient;
+    }
+
+    private float GetInvisibleLeftXPosition()
+    {
+        return -4 * TilePositioningCoefficient;
+    }
+
+    private void SetAllTilesVisualGameObjectsLocalPositionsToZero()
+    {
+        foreach (TileController tile in Tiles)
+        {
+            tile.VisualGameObject.transform.localPosition = Vector3.zero;
+        }
+    }
+
+    private void ReassignAllTilesVisualGameObjects()
+    {
+        foreach (TileController tile in Tiles)
+        {
+            tile.VisualGameObject = tile.transform.GetChild(0).gameObject;
+        }
+    }
+
+    private IEnumerator CallbackAfterAnimationDelay(Action callback)
+    {
+        yield return new WaitForSeconds(SlideAnimationDuration);
+        callback();
     }
 }

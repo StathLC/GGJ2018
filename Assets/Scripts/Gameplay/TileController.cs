@@ -1,28 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class TileController : MonoBehaviour
 {
     public TilePrefabCollectionScriptableObject TilePrefabCollection;
     public TileConfiguration Configuration;
-
-    private int xIndex;
-    private int yIndex;
-
-
-
-    public int XIndex
-    {
-        set { xIndex = value; }
-        get { return xIndex; }
-    }
-
-    public int YIndex
-    {
-        set { yIndex = value; }
-        get { return yIndex; }
-    }
+    public GameObject VisualGameObject;
 
 
 
@@ -44,6 +30,46 @@ public class TileController : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetVisualPositionX(float x)
+    {
+        VisualGameObject.transform.localPosition = new Vector3(x, VisualGameObject.transform.localPosition.y);
+    }
+
+    public void SetVisualPositionY(float y)
+    {
+        VisualGameObject.transform.localPosition = new Vector3(VisualGameObject.transform.localPosition.x, -y);
+    }
+
+    public void MoveTo(Direction direction, float distance, float duration)
+    {
+        switch (direction)
+        {
+            case Direction.Up:
+                VisualGameObject.transform
+                .DOLocalMove(new Vector3(0f, VisualGameObject.transform.localPosition.y + distance), duration)
+                .SetEase(Ease.OutQuad);
+                break;
+
+            case Direction.Left:
+                VisualGameObject.transform
+                .DOLocalMove(new Vector3(VisualGameObject.transform.localPosition.x - distance, 0f), duration)
+                .SetEase(Ease.OutQuad);
+                break;
+
+            case Direction.Down:
+                VisualGameObject.transform
+                .DOLocalMove(new Vector3(0f, VisualGameObject.transform.localPosition.y - distance), duration)
+                .SetEase(Ease.OutQuad);
+                break;
+
+            case Direction.Right:
+                VisualGameObject.transform
+                .DOLocalMove(new Vector3(VisualGameObject.transform.localPosition.x + distance, 0f), duration)
+                .SetEase(Ease.OutQuad);
+                break;
+        }
     }
 
     public void Populate(TileConfiguration configuration)
@@ -239,5 +265,7 @@ public class TileController : MonoBehaviour
 
         GameObject tileVisualGameObject = Instantiate(prefab, Vector3.zero, Quaternion.Euler(0f, 0f, rotation));
         tileVisualGameObject.transform.SetParent(transform, false);
+
+        VisualGameObject = tileVisualGameObject;
     }
 }
