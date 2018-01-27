@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NetworkController : Photon.PunBehaviour
 {
+    public int MaxPlayers = 4;
     public event EventHandler<ConnectionState> OnConnectionStateChanged;
     public event EventHandler<ExitGames.Client.Photon.LoadBalancing.ClientState> OnClientStateChanged;
     public event RoomJoined OnRoomJoined;
@@ -124,7 +125,7 @@ public class NetworkController : Photon.PunBehaviour
     {
         if (PhotonNetwork.JoinOrCreateRoom(name, new RoomOptions()
         {
-            MaxPlayers = 2,
+            MaxPlayers = (byte)this.MaxPlayers,
             CleanupCacheOnLeave = true,
             IsVisible = true
         }, new TypedLobby()))
