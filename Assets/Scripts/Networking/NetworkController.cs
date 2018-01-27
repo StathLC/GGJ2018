@@ -156,6 +156,7 @@ public class NetworkController : Photon.PunBehaviour
     public void StartGame()
     {
         OnGameStarted?.Invoke();
+        // TODO: Load additive scene -> gameplay scene.
     }
 
 
@@ -168,7 +169,7 @@ public class NetworkController : Photon.PunBehaviour
         if (PhotonNetwork.connectionState != CurrentConnectionState)
         {
             CurrentConnectionState = PhotonNetwork.connectionState;
-            
+
             switch (CurrentConnectionState)
             {
                 case ConnectionState.Disconnected:
@@ -186,7 +187,7 @@ public class NetworkController : Photon.PunBehaviour
             OnConnectionStateChanged?.Invoke(this, CurrentConnectionState);
         }
 
-        
+
     }
 
 

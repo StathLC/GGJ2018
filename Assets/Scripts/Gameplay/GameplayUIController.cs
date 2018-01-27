@@ -16,8 +16,13 @@ public class GameplayUIController : MonoBehaviour
         Grid.MoveRowRight(1);
     }
 
-    public void OnRestartButtonClicked()
+    public void OnTalkButtonClicked()
     {
+        Debug.Log("TALK");
+    }
 
+    public void OnExitGameButtonClicked()
+    {
+        Debug.Log("EXIT GAME");
     }
 }
