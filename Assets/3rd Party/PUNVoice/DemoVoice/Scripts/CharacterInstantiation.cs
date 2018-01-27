@@ -9,6 +9,8 @@
 // <author>developer@photonengine.com</author>
 // ----------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace ExitGames.Demos.DemoPunVoice {
 
     using UnityEngine;
@@ -20,8 +22,9 @@ namespace ExitGames.Demos.DemoPunVoice {
         public static event OnCharacterInstantiated CharacterInstantiated;
 
         public new void OnJoinedRoom() {
-            if (this.PrefabsToInstantiate != null) {
-                GameObject o = PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % 4];
+            if (this.PrefabsToInstantiate != null)
+            {
+                GameObject o = PrefabsToInstantiate.FirstOrDefault();// PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % 4];
                 //Debug.Log("Instantiating: " + o.name);
                 Vector3 spawnPos = Vector3.zero;
                 if (this.SpawnPosition != null) {
