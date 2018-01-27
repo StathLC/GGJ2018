@@ -6,7 +6,9 @@ using UnityEngine;
 public class TilePrefabCollectionScriptableObject : ScriptableObject
 {
     public GameObject TileLShapePrefab;
-    public GameObject TileIShapePrefab;
+    public GameObject TileStraightPrefab;
+    public GameObject TileJunctionPrefab;
+    public GameObject TileTJunctionPrefab;
     public GameObject TileEntrancePrefab;
     public GameObject TileExitPrefab;
     public GameObject TileBlockPrefab;
