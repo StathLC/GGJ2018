@@ -5,7 +5,7 @@ using UnityEngine;
 public class TileController : MonoBehaviour
 {
     public TilePrefabCollectionScriptableObject TilePrefabCollection;
-    public TileConfiguration TileConfiguration;
+    public TileConfiguration Configuration;
 
     private int xIndex;
     private int yIndex;
@@ -48,7 +48,7 @@ public class TileController : MonoBehaviour
 
     public void Populate(TileConfiguration configuration)
     {
-        TileConfiguration = configuration;
+        Configuration = configuration;
 
         GameObject prefab = null;
         float rotation = 0f;

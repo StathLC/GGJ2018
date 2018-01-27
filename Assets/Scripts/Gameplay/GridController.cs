@@ -21,6 +21,26 @@ public class GridController : MonoBehaviour
         SetGridInitialPosition();
     }
 
+    public void MoveColumnUp(int columnIndex)
+    {
+
+    }
+
+    public void MoveColumnDown(int columnIndex)
+    {
+
+    }
+
+    public void MoveRowRight(int rowIndex)
+    {
+
+    }
+
+    public void MoveRowLeft(int rowIndex)
+    {
+
+    }
+
     public void ArrangeGridByPlayerIndex(PlayerIndex playerIndex)
     {
         HideAllTiles();
