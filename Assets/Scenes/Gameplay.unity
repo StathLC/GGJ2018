@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -317,6 +317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TilePositioningCoefficient: 26
+  SlideAnimationDuration: 1
+  xSize: 4
+  ySize: 4
   Tiles:
   - {fileID: 1427289998}
   - {fileID: 1454136027}
@@ -334,8 +337,6 @@ MonoBehaviour:
   - {fileID: 761608705}
   - {fileID: 485539507}
   - {fileID: 203697426}
-  xSize: 4
-  ySize: 4
   VisibleTopLeft: {fileID: 0}
   VisibleTopRight: {fileID: 0}
   VisibleBottomLeft: {fileID: 0}
@@ -382,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -431,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -480,7 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -624,7 +625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -753,7 +754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -802,7 +803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -851,7 +852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -1068,6 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ad74290de76474c88ef8af82a4ba98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Grid: {fileID: 277957575}
 --- !u!4 &1250198135
 Transform:
   m_ObjectHideFlags: 0
@@ -1123,7 +1125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -1172,7 +1174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -1221,7 +1223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -1270,7 +1272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -1319,7 +1321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
@@ -1442,7 +1444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabCollection: {fileID: 11400000, guid: 31a334fdd61b44065bc06932a71096a5,
     type: 2}
-  TileConfiguration:
+  Configuration:
     Top: 0
     Bottom: 0
     Right: 0
