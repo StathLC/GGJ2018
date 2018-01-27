@@ -21,6 +21,8 @@ public class NetworkController : Photon.PunBehaviour
     {
         if (Instance == null)
         {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
             Instance = this;
             PhotonVoiceNetwork.Client.OnStateChangeAction += OnVoiceClientStateChanged;
         }
@@ -153,6 +155,10 @@ public class NetworkController : Photon.PunBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         if (PhotonNetwork.connectionState != CurrentConnectionState)
         {
             CurrentConnectionState = PhotonNetwork.connectionState;
