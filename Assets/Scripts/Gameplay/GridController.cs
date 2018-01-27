@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using NesScripts.Controls.PathFind;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
@@ -226,6 +228,14 @@ public class GridController : MonoBehaviour
     {
         SetTilesInitialPosition();
         PopulateTilesByLevel(level);
+        if (TestPath(Tiles, xSize, ySize))
+        {
+            Debug.LogError("found path");
+        }
+        else
+        {
+            Debug.LogError("no path");
+        }
     }
 
     private void SetTilesInitialPosition()
@@ -318,5 +328,80 @@ public class GridController : MonoBehaviour
     {
         yield return new WaitForSeconds(SlideAnimationDuration);
         callback();
+    }
+
+    public static bool TestPath(List<TileController> tiles, int gridWidth, int gridHeight)
+    {
+        int tileWidth = 3;
+        int tileHeight = 3;
+
+        var grid = new bool[tileWidth * gridWidth,tileHeight * gridHeight];
+
+        int tileIndex = 0;
+        int colIndex = 0;
+        int rowIndex = 0;
+
+        Point start = new Point(0, 0);
+        Point finish = new Point(tileWidth * gridWidth, tileHeight * gridHeight);
+
+        foreach (var tileController in tiles)
+        {
+            grid[colIndex + 0, rowIndex + 0] = false; // ul
+            grid[colIndex + 1, rowIndex + 0] = tileController.Configuration.Top; // uc
+            grid[colIndex + 2, rowIndex + 0] = false; // ur
+            grid[colIndex + 0, rowIndex + 1] = tileController.Configuration.Left; // cl
+            grid[colIndex + 1, rowIndex + 1] = true; // cc
+            grid[colIndex + 2, rowIndex + 1] = tileController.Configuration.Right; // cr
+            grid[colIndex + 0, rowIndex + 2] = false; // bl
+            grid[colIndex + 1, rowIndex + 2] = tileController.Configuration.Bottom; // bc
+            grid[colIndex + 2, rowIndex + 2] = false; // br
+
+            if (tileController.Configuration.Entrance)
+            {
+                start = new Point(colIndex + 1, rowIndex + 1);
+            }
+            else if (tileController.Configuration.Exit)
+            {
+                finish = new Point(colIndex + 1, rowIndex + 1);
+            }
+            colIndex += tileWidth;
+
+            if (colIndex >= tileWidth * gridWidth)
+            {
+                colIndex = 0;
+                rowIndex += tileHeight;
+            }
+
+            tileIndex++;
+        }
+
+        var path = Pathfinding.FindPath(
+            new NesScripts.Controls.PathFind.Grid(tileWidth * gridWidth, tileHeight * gridHeight, grid), start, finish,
+            true);
+        
+        StringBuilder builder = new StringBuilder();
+
+        for (int x = 0; x < tileWidth * gridWidth; x++)
+        {
+            for (int y = 0; y < tileHeight * gridHeight; y++)
+            {
+                if (start.x == x && start.y == y)
+                {
+                    builder.Append("S");
+                }
+                else if (finish.x == x && finish.y == y)
+                {
+                    builder.Append("F");
+                }
+                else
+                {
+                    builder.Append(grid[x, y] ? 1 : 0);
+                }
+            }
+            builder.Append(Environment.NewLine);
+        }
+        Debug.Log(builder.ToString());
+
+        return path.Count > 0;
     }
 }
