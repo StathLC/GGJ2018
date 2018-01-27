@@ -15,13 +15,11 @@ public class GridController : MonoBehaviour
 
 
 
-    void Start()
+    public void Initialize(Level level)
     {
-        InitializeTiles();
+        InitializeTiles(level);
         SetGridInitialPosition();
     }
-
-
 
     public void ArrangeGridByPlayerIndex(PlayerIndex playerIndex)
     {
@@ -81,10 +79,11 @@ public class GridController : MonoBehaviour
 
 
 
-    private void InitializeTiles()
+    private void InitializeTiles(Level level)
     {
         AssignTilesIndex();
         SetTilesInitialPosition();
+        PopulateTilesByLevel(level);
     }
 
     private void AssignTilesIndex()
@@ -105,6 +104,17 @@ public class GridController : MonoBehaviour
         foreach (TileController tile in Tiles)
         {
             tile.SetPosition(tile.XIndex, tile.YIndex, TilePositioningCoefficient);
+        }
+    }
+
+    private void PopulateTilesByLevel(Level level)
+    {
+        for (int i = 0; i < level.TileConfigurations.Count; i++)
+        {
+            TileConfiguration tileConfiguration = level.TileConfigurations[i];
+            TileController tile = Tiles[i];
+
+            tile.Populate(tileConfiguration);
         }
     }
 

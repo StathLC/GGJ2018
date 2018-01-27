@@ -11,8 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfde0da68cf234e93abd61e7b1b9ba9f, type: 3}
   m_Name: TilePrefabCollection
   m_EditorClassIdentifier: 
-  TileLShape: {fileID: 0}
-  TileIShape: {fileID: 0}
-  TileEntrance: {fileID: 0}
-  TileExit: {fileID: 0}
-  TileBlock: {fileID: 0}
+  TileLShapePrefab: {fileID: 1852761898698632, guid: ffcdf69adae35c4418579667dea5c2e2,
+    type: 2}
+  TileStraightPrefab: {fileID: 1231133416498984, guid: d4feb33c5772dbc43957f0d6c3cc6961,
+    type: 2}
+  TileJunctionPrefab: {fileID: 1770850370560370, guid: a77d1aed78a51c941ac7a6e739a7cc63,
+    type: 2}
+  TileTJunctionPrefab: {fileID: 1096364470734104, guid: b08498b7c2e898241a5fdbed2aae37d0,
+    type: 2}
+  TileEntrancePrefab: {fileID: 1628713402158740, guid: 0e8742b896e3a0445a99a312f4020c67,
+    type: 2}
+  TileExitPrefab: {fileID: 1919975021818940, guid: 14f3cfdd7669e454289e8d5b1ae98522,
+    type: 2}
+  TileBlockedPrefab: {fileID: 1540889189380460, guid: 3b5c6026a9808664dbae449f0e581191,
+    type: 2}

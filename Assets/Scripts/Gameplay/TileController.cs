@@ -46,18 +46,18 @@ public class TileController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-
-
-    private void PopulateTile(TileConfiguration configuration)
+    public void Populate(TileConfiguration configuration)
     {
+        TileConfiguration = configuration;
+
         GameObject prefab = null;
         float rotation = 0f;
 
         // Blocked
-        if (configuration.Top == true
-            && configuration.Right == true
-            && configuration.Bottom == true
-            && configuration.Left == true)
+        if (configuration.Top == false
+            && configuration.Right == false
+            && configuration.Bottom == false
+            && configuration.Left == false)
         {
             prefab = TilePrefabCollection.TileBlockedPrefab;
             rotation = 0f;
