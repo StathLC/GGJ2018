@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
+    public TilePrefabCollectionScriptableObject TilePrefabCollection;
     public TileConfiguration TileConfiguration;
 
     private int xIndex;
@@ -47,7 +48,7 @@ public class TileController : MonoBehaviour
 
 
 
-    private void PopulateTile()
+    private void PopulateTile(TileConfiguration configuration)
     {
 
     }
