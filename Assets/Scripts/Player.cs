@@ -13,6 +13,7 @@ public class Player : Photon.PunBehaviour
     {
         base.OnJoinedLobby();
         Debug.Log("joined lobby");
+        
         SpawnRooms(PhotonNetwork.GetRoomList());
     }
 
@@ -39,8 +40,11 @@ public class Player : Photon.PunBehaviour
         var room = PhotonNetwork.room;
         builder.AppendLine($"{room.Name} {room.PlayerCount}");
         
+
+
         infoLabel.text = builder.ToString();
     }
+    
 
     public void Connect()
     {
@@ -67,9 +71,11 @@ public class Player : Photon.PunBehaviour
         if (PhotonNetwork.JoinOrCreateRoom(name, new RoomOptions()
         {
             MaxPlayers = 4,
-            CleanupCacheOnLeave = true
+            CleanupCacheOnLeave = true,
+            IsVisible = true
         }, new TypedLobby()))
         {
+            
         }
     }
 
