@@ -21,24 +21,12 @@ public class LobbyView : Photon.PunBehaviour
         NetworkController.Instance.OnLobbyJoined += () => { gameObject.SetActive(true); };
         NetworkController.Instance.OnLobbyLeft += () => { gameObject.SetActive(false); };
         gameObject.SetActive(false);
+        _roomCounts.text = $"{0} rooms";
     }
 
     internal void Join(RoomInfo room)
     {
         NetworkController.Instance.JoinRoom(room.Name);
-    }
-
-    void OnEnable()
-    {
-        StartCoroutine(GetRooms());
-    }
-
-    private IEnumerator GetRooms()
-    {
-        if (!PhotonNetwork.connected)
-            yield break;
-        yield return new WaitForSeconds(.5f);
-        RefreshList();
     }
     
     public void Join()
