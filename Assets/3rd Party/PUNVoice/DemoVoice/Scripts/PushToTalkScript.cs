@@ -11,6 +11,7 @@
 #pragma warning disable 0649 // Field is never assigned to, and will always have its default value
 
 using System.Collections.Generic;
+using TMPro;
 
 namespace ExitGames.Demos.DemoPunVoice
 {
@@ -24,7 +25,7 @@ namespace ExitGames.Demos.DemoPunVoice
         private Button pushToTalkButton;
 
         /// <summary>The button's text, so we can change it.</summary>
-        private Text pushToTalkText;
+        private TextMeshProUGUI pushToTalkText;
 
         /// <summary>This client's voice recorder.</summary>
         private PhotonVoiceRecorder rec;
@@ -57,7 +58,7 @@ namespace ExitGames.Demos.DemoPunVoice
         {
             if (pushToTalkButton != null)
             {
-                pushToTalkText = pushToTalkButton.GetComponentInChildren<Text>();
+                pushToTalkText = pushToTalkButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (pushToTalkText != null)
                 {
                     pushToTalkText.text = "Talk-To-All";
