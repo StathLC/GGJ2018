@@ -11,6 +11,7 @@ public class NetworkController : Photon.PunBehaviour
     public event RoomLeft OnRoomLeft;
     public event LobbyJoined OnLobbyJoined;
     public event LobbyLeft OnLobbyLeft;
+    public event GameStarted OnGameStarted;
 
 
     public static NetworkController Instance { get; private set; }
@@ -123,7 +124,7 @@ public class NetworkController : Photon.PunBehaviour
     {
         if (PhotonNetwork.JoinOrCreateRoom(name, new RoomOptions()
         {
-            MaxPlayers = 4,
+            MaxPlayers = 2,
             CleanupCacheOnLeave = true,
             IsVisible = true
         }, new TypedLobby()))
@@ -150,6 +151,11 @@ public class NetworkController : Photon.PunBehaviour
     public void LeaveLobby()
     {
         PhotonNetwork.LeaveLobby();
+    }
+
+    public void StartGame()
+    {
+        OnGameStarted?.Invoke();
     }
 
 
@@ -194,5 +200,6 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void RoomLeft();
     public delegate void LobbyJoined();
     public delegate void LobbyLeft();
+    public delegate void GameStarted();
 
 }

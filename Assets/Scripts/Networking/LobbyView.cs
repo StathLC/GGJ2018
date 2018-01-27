@@ -53,7 +53,7 @@ public class LobbyView : Photon.PunBehaviour
 
     void Update()
     {
-        if (_rooms.Count != PhotonNetwork.countOfRooms)
+        if (_rooms.Count != PhotonNetwork.GetRoomList().Length)
         {
             RefreshList();
         }
@@ -72,14 +72,18 @@ public class LobbyView : Photon.PunBehaviour
 
     private void SpawnRooms(RoomInfo[] rooms)
     {
+
         _rooms.ForEach(x => Destroy(x.gameObject));
-        _roomCounts.text = $"{PhotonNetwork.countOfRooms} rooms";
+        _rooms.Clear();
+        _roomCounts.text = $"{rooms.Length} rooms";
         foreach (var roomInfo in rooms)
         {
             var prefab = GameObject.Instantiate(roomObjectPrefab);
             var component = prefab.GetComponent<RoomObject>();
             prefab.transform.SetParent(_roomContent);
+            prefab.transform.localScale = Vector3.one;
             component.Initialize(this, roomInfo);
+            _rooms.Add(component);
         }
         
     }

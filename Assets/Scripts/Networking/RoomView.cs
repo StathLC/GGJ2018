@@ -63,7 +63,7 @@ public class RoomView : MonoBehaviour
 
     public void StartGame()
     {
-        
+        NetworkController.Instance.StartGame();
     }
 
 }
