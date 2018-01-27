@@ -9,9 +9,11 @@ public class LobbyView : Photon.PunBehaviour
 {
 
     [SerializeField] private TMP_InputField _roomNameLabel;
+    [SerializeField] private TextMeshProUGUI _roomCounts;
     [SerializeField] private GameObject roomObjectPrefab;
     [SerializeField] private RectTransform _roomContent;
     private List<RoomObject> _rooms = new List<RoomObject>();
+    
 
 
     void Awake()
@@ -49,6 +51,14 @@ public class LobbyView : Photon.PunBehaviour
         NetworkController.Instance.CreateRoom(_roomNameLabel.text);
     }
 
+    void Update()
+    {
+        if (_rooms.Count != PhotonNetwork.countOfRooms)
+        {
+            RefreshList();
+        }
+    }
+
     public void RefreshList()
     {
         SpawnRooms(NetworkController.Instance.GetRooms());
@@ -63,7 +73,7 @@ public class LobbyView : Photon.PunBehaviour
     private void SpawnRooms(RoomInfo[] rooms)
     {
         _rooms.ForEach(x => Destroy(x.gameObject));
-
+        _roomCounts.text = $"{PhotonNetwork.countOfRooms} rooms";
         foreach (var roomInfo in rooms)
         {
             var prefab = GameObject.Instantiate(roomObjectPrefab);
