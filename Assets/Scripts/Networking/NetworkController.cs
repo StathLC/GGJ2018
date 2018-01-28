@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class NetworkController : Photon.PunBehaviour
     public event GameCompleted OnGameCompleted;
     public event MasterMovement OnMasterMovement;
     public event PlayerMovement OnPlayerMovement;
+    public Action<PlayerIndex> OnAssignPlayerIndex;
+    public Action<ButtonFunctionalityType[]> OnAssignButtonFunctionalities;
 
 
     public static NetworkController Instance { get; private set; }
@@ -99,8 +102,6 @@ public class NetworkController : Photon.PunBehaviour
     {
         base.OnConnectedToMaster();
 
-
-
         PhotonNetwork.JoinLobby();
     }
 
@@ -156,13 +157,105 @@ public class NetworkController : Photon.PunBehaviour
     {
         PhotonNetwork.LeaveLobby();
     }
-    
+
     public void StartGame()
     {
         if (PhotonNetwork.isMasterClient)
         {
             photonView.RPC("RecievedStartGame", PhotonTargets.All);
         }
+    }
+
+    public void SendPlayerIndicesToPlayers()
+    {
+        if (PhotonNetwork.isMasterClient == false)
+        {
+            return;
+        }
+
+        // Player Ids.
+        List<int> playerIds = new List<int>();
+        foreach (PhotonPlayer photonPlayer in PhotonNetwork.playerList)
+        {
+            playerIds.Add(photonPlayer.ID);
+        }
+
+        // Assign player indices.
+        RaiseEventOptions assignPlayerIndicesOptions = new RaiseEventOptions();
+        assignPlayerIndicesOptions.TargetActors = playerIds.ToArray();
+
+        PlayerIndex[] playerIndices = new PlayerIndex[]
+        {
+            PlayerIndex.TopLeft,
+            PlayerIndex.TopRight,
+            PlayerIndex.BottomRight,
+            PlayerIndex.BottomLeft
+        };
+
+        ArrayShuffler.Shuffle(playerIndices);
+
+        Dictionary<int, PlayerIndex> assignPlayerIndicesParameters = new Dictionary<int, PlayerIndex>();
+        assignPlayerIndicesParameters.Add(playerIds[0], playerIndices[0]);
+        assignPlayerIndicesParameters.Add(playerIds[1], playerIndices[1]);
+        if (playerIds.Count > 2) assignPlayerIndicesParameters.Add(playerIds[2], playerIndices[2]);
+        if (playerIds.Count > 3) assignPlayerIndicesParameters.Add(playerIds[3], playerIndices[3]);
+
+        photonView.RPC("ReceivedAssignPlayerIndices", PhotonTargets.All, assignPlayerIndicesParameters);
+        //PhotonNetwork.RaiseEvent(1, assignPlayerIndicesParameters, true, assignPlayerIndicesOptions);
+    }
+
+    public void SendButtonFunctionalitiesToPlayers()
+    {
+        if (PhotonNetwork.isMasterClient == false)
+        {
+            return;
+        }
+
+        // Player Ids.
+        List<int> playerIds = new List<int>();
+        foreach (PhotonPlayer photonPlayer in PhotonNetwork.playerList)
+        {
+            playerIds.Add(photonPlayer.ID);
+        }
+
+        // Assign button functionalities.
+        RaiseEventOptions assignButtonFunctionalitiesOptions = new RaiseEventOptions();
+        assignButtonFunctionalitiesOptions.TargetActors = playerIds.ToArray();
+
+        ButtonFunctionalityType[] buttonFunctionalityTypes = ButtonFunctionalityTypesCollection.GetRandomButtonFunctionalityTypesSetup();
+
+        ArrayShuffler.Shuffle(buttonFunctionalityTypes);
+
+        Dictionary<int, ButtonFunctionalityType[]> assignButtonFunctionalitiesParameters = new Dictionary<int, ButtonFunctionalityType[]>();
+        assignButtonFunctionalitiesParameters.Add(playerIds[0], new ButtonFunctionalityType[]
+        {
+            buttonFunctionalityTypes[0],
+            buttonFunctionalityTypes[1]
+        });
+        assignButtonFunctionalitiesParameters.Add(playerIds[1], new ButtonFunctionalityType[]
+        {
+            buttonFunctionalityTypes[2],
+            buttonFunctionalityTypes[3]
+        });
+        if (playerIds.Count > 2)
+        {
+            assignButtonFunctionalitiesParameters.Add(playerIds[2], new ButtonFunctionalityType[]
+            {
+                buttonFunctionalityTypes[4],
+                buttonFunctionalityTypes[5]
+            });
+        }
+        if (playerIds.Count > 3)
+        {
+            assignButtonFunctionalitiesParameters.Add(playerIds[3], new ButtonFunctionalityType[]
+            {
+                buttonFunctionalityTypes[6],
+                buttonFunctionalityTypes[7]
+            });
+        }
+
+        photonView.RPC("ReceivedAssignButtonFunctionalities", PhotonTargets.All, assignButtonFunctionalitiesParameters);
+        //PhotonNetwork.RaiseEvent(2, assignButtonFunctionalitiesParameters, true, assignButtonFunctionalitiesOptions);
     }
 
     public void SendPlayerMovementToMaster(EInput button)
@@ -189,27 +282,48 @@ public class NetworkController : Photon.PunBehaviour
     [PunRPC]
     private void RecievedStartGame()
     {
+        Debug.Log("NetworkController: ReceivedStartGame");
         OnGameStarted?.Invoke();
+    }
+
+    [PunRPC]
+    private void ReceivedAssignPlayerIndices(object content)
+    {
+        Dictionary<int, int> objDict = content as Dictionary<int, int>;
+        PlayerIndex playerIndex = (PlayerIndex)objDict[PhotonNetwork.player.ID];
+
+        OnAssignPlayerIndex(playerIndex);
+    }
+
+    [PunRPC]
+    private void ReceivedAssignButtonFunctionalities(object content)
+    {
+        Dictionary<int, ButtonFunctionalityType[]> objDict = content as Dictionary<int, ButtonFunctionalityType[]>;
+
+        OnAssignButtonFunctionalities(objDict[PhotonNetwork.player.ID]);
     }
 
     [PunRPC]
     private void RecievedCompletionMessage(bool win)
     {
+        Debug.Log("NetworkController: ReceivedCompletionMessage: " + win);
         OnGameCompleted?.Invoke(win);
     }
-    
+
     [PunRPC]
     private void InputReceived(int player, int button)
     {
         if (PhotonNetwork.isMasterClient)
         {
+            Debug.Log("NetworkController: MASTER InputReceived: " + player + " " + button);
             OnMasterMovement?.Invoke(player, button);
         }
     }
-    
+
     [PunRPC]
     private void InputReceived(int row, int col, int direction)
     {
+        Debug.Log("NetworkController: InputReceived: " + row + " " + col + " " + direction);
         OnPlayerMovement?.Invoke(row, col, direction);
     }
 
@@ -258,7 +372,7 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void LobbyLeft();
     public delegate void GameStarted();
     public delegate void GameCompleted(bool win);
-    public delegate void MasterMovement(int player,int button);
+    public delegate void MasterMovement(int player, int button);
     public delegate void PlayerMovement(int row, int col, int direction);
 
 

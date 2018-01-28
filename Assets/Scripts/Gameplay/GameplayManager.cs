@@ -13,54 +13,6 @@ public class GameplayManager : MonoBehaviour
     public GameplayUIController UIController;
     public Transform CameraTransform;
 
-    private ButtonFunctionalityType[] buttonFunctionalityTypesSetupA = new ButtonFunctionalityType[]
-    {
-        ButtonFunctionalityType.MoveColumn0Up,
-        ButtonFunctionalityType.MoveColumn1Up,
-        ButtonFunctionalityType.MoveColumn2Down,
-        ButtonFunctionalityType.MoveColumn3Up,
-        ButtonFunctionalityType.MoveRow0Right,
-        ButtonFunctionalityType.MoveRow1Left,
-        ButtonFunctionalityType.MoveRow2Right,
-        ButtonFunctionalityType.MoveRow3Left,
-    };
-
-    ButtonFunctionalityType[] buttonFunctionalityTypesSetupB = new ButtonFunctionalityType[]
-    {
-        ButtonFunctionalityType.MoveColumn0Up,
-        ButtonFunctionalityType.MoveColumn1Up,
-        ButtonFunctionalityType.MoveColumn2Down,
-        ButtonFunctionalityType.MoveColumn3Up,
-        ButtonFunctionalityType.MoveRow0Right,
-        ButtonFunctionalityType.MoveRow1Left,
-        ButtonFunctionalityType.MoveRow2Left,
-        ButtonFunctionalityType.MoveRow3Left,
-    };
-
-    ButtonFunctionalityType[] buttonFunctionalityTypesSetupC = new ButtonFunctionalityType[]
-    {
-        ButtonFunctionalityType.MoveColumn0Down,
-        ButtonFunctionalityType.MoveColumn1Down,
-        ButtonFunctionalityType.MoveColumn2Up,
-        ButtonFunctionalityType.MoveColumn3Down,
-        ButtonFunctionalityType.MoveRow0Right,
-        ButtonFunctionalityType.MoveRow1Left,
-        ButtonFunctionalityType.MoveRow2Right,
-        ButtonFunctionalityType.MoveRow3Right,
-    };
-
-    ButtonFunctionalityType[] buttonFunctionalityTypesSetupD = new ButtonFunctionalityType[]
-    {
-        ButtonFunctionalityType.MoveColumn0Up,
-        ButtonFunctionalityType.MoveColumn1Down,
-        ButtonFunctionalityType.MoveColumn2Up,
-        ButtonFunctionalityType.MoveColumn3Down,
-        ButtonFunctionalityType.MoveRow0Right,
-        ButtonFunctionalityType.MoveRow1Right,
-        ButtonFunctionalityType.MoveRow2Right,
-        ButtonFunctionalityType.MoveRow3Right,
-    };
-
 
 
     void Start()
@@ -72,18 +24,24 @@ public class GameplayManager : MonoBehaviour
 
         if (PhotonNetwork.isMasterClient == true)
         {
-            InitializeAsMaster();
+            StartCoroutine(InitializeAsMaster());
         }
     }
 
     void OnEnable()
     {
         PhotonNetwork.OnEventCall += PhotonNetwork_OnEventCall;
+
+        NetworkController.Instance.OnAssignPlayerIndex += NetworkContoller_OnAssignPlayerIndex;
+        NetworkController.Instance.OnAssignButtonFunctionalities += NetworkController_OnAssignButtonFunctionalities;
     }
 
     void OnDisable()
     {
         PhotonNetwork.OnEventCall -= PhotonNetwork_OnEventCall;
+
+        NetworkController.Instance.OnAssignPlayerIndex -= NetworkContoller_OnAssignPlayerIndex;
+        NetworkController.Instance.OnAssignButtonFunctionalities -= NetworkController_OnAssignButtonFunctionalities;
     }
 
 
@@ -119,7 +77,7 @@ public class GameplayManager : MonoBehaviour
         return level;
     }
 
-    private void AssignPlayerIndexForCamera(PlayerIndex index)
+    private void AssignPlayerIndex(PlayerIndex index)
     {
         PlayerIndex = index;
 
@@ -149,106 +107,21 @@ public class GameplayManager : MonoBehaviour
         UIController.AssignRightButtonFunctionality(types[1]);
     }
 
-    private void InitializeAsMaster()
+    private IEnumerator InitializeAsMaster()
     {
-        // Player Ids.
-        List<int> playerIds = new List<int>();
-        foreach (PhotonPlayer photonPlayer in PhotonNetwork.playerList)
-        {
-            playerIds.Add(photonPlayer.ID);
-        }
+        // Delay
+        yield return new WaitForSeconds(3f);
 
-        // Create level.
-        RaiseEventOptions createLevelOptions = RaiseEventOptions.Default;
-        createLevelOptions.Receivers = ReceiverGroup.All;
-        PhotonNetwork.RaiseEvent(0, CreateLevel1(), true, createLevelOptions);
-
-        // Assign player indices.
-        RaiseEventOptions assignPlayerIndicesOptions = new RaiseEventOptions();
-        assignPlayerIndicesOptions.TargetActors = playerIds.ToArray();
-
-        PlayerIndex[] playerIndices = new PlayerIndex[]
-        {
-            PlayerIndex.TopLeft,
-            PlayerIndex.TopRight,
-            PlayerIndex.BottomRight,
-            PlayerIndex.BottomLeft
-        };
-
-        ArrayShuffler.Shuffle(playerIndices);
-
-        Dictionary<int, PlayerIndex> assignPlayerIndicesParameters = new Dictionary<int, PlayerIndex>();
-        assignPlayerIndicesParameters.Add(playerIds[0], playerIndices[0]);
-        assignPlayerIndicesParameters.Add(playerIds[1], playerIndices[1]);
-        assignPlayerIndicesParameters.Add(playerIds[2], playerIndices[2]);
-        assignPlayerIndicesParameters.Add(playerIds[3], playerIndices[3]);
-        PhotonNetwork.RaiseEvent(1, assignPlayerIndicesParameters, true, assignPlayerIndicesOptions);
-
-        // Assign button functionalities.
-        RaiseEventOptions assignButtonFunctionalitiesOptions = new RaiseEventOptions();
-        assignButtonFunctionalitiesOptions.TargetActors = playerIds.ToArray();
-
-        ButtonFunctionalityType[] buttonFunctionalityTypes = null;
-        int randomSetupIndex = Random.Range(0, 4);
-        switch (randomSetupIndex)
-        {
-            case 0:
-                buttonFunctionalityTypes = buttonFunctionalityTypesSetupA;
-                break;
-
-            case 1:
-                buttonFunctionalityTypes = buttonFunctionalityTypesSetupB;
-                break;
-
-            case 2:
-                buttonFunctionalityTypes = buttonFunctionalityTypesSetupC;
-                break;
-
-            case 3:
-                buttonFunctionalityTypes = buttonFunctionalityTypesSetupD;
-                break;
-        }
-
-        ArrayShuffler.Shuffle(buttonFunctionalityTypes);
-
-        Dictionary<int, ButtonFunctionalityType[]> assignButtonFunctionalitiesParameters = new Dictionary<int, ButtonFunctionalityType[]>();
-        assignButtonFunctionalitiesParameters.Add(playerIds[0], new ButtonFunctionalityType[]
-        {
-            buttonFunctionalityTypes[0],
-            buttonFunctionalityTypes[1]
-        });
-        assignButtonFunctionalitiesParameters.Add(playerIds[1], new ButtonFunctionalityType[]
-        {
-            buttonFunctionalityTypes[2],
-            buttonFunctionalityTypes[3]
-        });
-        assignButtonFunctionalitiesParameters.Add(playerIds[2], new ButtonFunctionalityType[]
-        {
-            buttonFunctionalityTypes[4],
-            buttonFunctionalityTypes[5]
-        });
-        assignButtonFunctionalitiesParameters.Add(playerIds[3], new ButtonFunctionalityType[]
-        {
-            buttonFunctionalityTypes[6],
-            buttonFunctionalityTypes[7]
-        });
-        PhotonNetwork.RaiseEvent(2, assignButtonFunctionalitiesParameters, true, assignButtonFunctionalitiesOptions);
+        NetworkController.Instance.SendPlayerIndicesToPlayers();
+        NetworkController.Instance.SendButtonFunctionalitiesToPlayers();
     }
+
+
 
     private void PhotonNetwork_OnEventCall(byte eventCode, object content, int senderId)
     {
-        // Create level.
-        if (eventCode == 0)
-        {
-            PhotonPlayer sender = PhotonPlayer.Find(senderId);  // who sent this?
-            Debug.Log("Create level event received, sender is: " + sender.NickName + " master?: " + sender.IsMasterClient);
-
-            Level level = content as Level;
-            Grid.Initialize(level);
-        }
-
         // Assign player indices.
-        else if (eventCode == 1)
+        if (eventCode == 1)
         {
             PhotonPlayer sender = PhotonPlayer.Find(senderId);  // who sent this?
             Debug.Log("Assign player index event received, sender is: " + sender.NickName + " master?: " + sender.IsMasterClient);
@@ -256,11 +129,11 @@ public class GameplayManager : MonoBehaviour
             Dictionary<int, PlayerIndex> objDict = content as Dictionary<int, PlayerIndex>;
             PlayerIndex playerIndex = objDict[PhotonNetwork.player.ID];
 
-            AssignPlayerIndexForCamera(playerIndex);
+            AssignPlayerIndex(playerIndex);
         }
 
         // Assign button functionalities.
-        else if (eventCode == 2)
+        if (eventCode == 2)
         {
             PhotonPlayer sender = PhotonPlayer.Find(senderId);  // who sent this?
             Debug.Log("Assign button functionalities event received, sender is: " + sender.NickName + " master?: " + sender.IsMasterClient);
@@ -268,5 +141,15 @@ public class GameplayManager : MonoBehaviour
             Dictionary<int, ButtonFunctionalityType[]> objDict = content as Dictionary<int, ButtonFunctionalityType[]>;
             AssignButtonFunctionalities(objDict[PhotonNetwork.player.ID]);
         }
+    }
+
+    private void NetworkContoller_OnAssignPlayerIndex(PlayerIndex playerIndex)
+    {
+        AssignPlayerIndex(playerIndex);
+    }
+
+    private void NetworkController_OnAssignButtonFunctionalities(ButtonFunctionalityType[] types)
+    {
+        AssignButtonFunctionalities(types);
     }
 }

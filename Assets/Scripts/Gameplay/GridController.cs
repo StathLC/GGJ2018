@@ -15,10 +15,6 @@ public class GridController : MonoBehaviour
 
     [Header("References")]
     public List<TileController> Tiles;
-    public Transform VisibleTopLeft;
-    public Transform VisibleTopRight;
-    public Transform VisibleBottomLeft;
-    public Transform VisibleBottomRight;
 
     private bool isAnimationPlayingNow = false;
 
@@ -164,64 +160,6 @@ public class GridController : MonoBehaviour
         }));
     }
 
-    /*
-    public void ArrangeGridByPlayerIndex(PlayerIndex playerIndex)
-    {
-        HideAllTiles();
-
-        switch (playerIndex)
-        {
-            case PlayerIndex.TopLeft:
-                GetTileByIndex(0, 0).SetPosition(VisibleTopLeft.position);
-                GetTileByIndex(0, 1).SetPosition(VisibleTopRight.position);
-                GetTileByIndex(1, 0).SetPosition(VisibleBottomLeft.position);
-                GetTileByIndex(1, 1).SetPosition(VisibleBottomRight.position);
-
-                GetTileByIndex(0, 0).Show();
-                GetTileByIndex(0, 1).Show();
-                GetTileByIndex(1, 0).Show();
-                GetTileByIndex(1, 1).Show();
-                break;
-
-            case PlayerIndex.TopRight:
-                GetTileByIndex(0, 2).SetPosition(VisibleTopLeft.position);
-                GetTileByIndex(0, 3).SetPosition(VisibleTopRight.position);
-                GetTileByIndex(1, 2).SetPosition(VisibleBottomLeft.position);
-                GetTileByIndex(1, 3).SetPosition(VisibleBottomRight.position);
-
-                GetTileByIndex(0, 2).Show();
-                GetTileByIndex(0, 3).Show();
-                GetTileByIndex(1, 2).Show();
-                GetTileByIndex(1, 3).Show();
-                break;
-
-            case PlayerIndex.BottomLeft:
-                GetTileByIndex(2, 0).SetPosition(VisibleTopLeft.position);
-                GetTileByIndex(2, 1).SetPosition(VisibleTopRight.position);
-                GetTileByIndex(3, 0).SetPosition(VisibleBottomLeft.position);
-                GetTileByIndex(3, 1).SetPosition(VisibleBottomRight.position);
-
-                GetTileByIndex(2, 0).Show();
-                GetTileByIndex(2, 1).Show();
-                GetTileByIndex(3, 0).Show();
-                GetTileByIndex(3, 1).Show();
-                break;
-
-            case PlayerIndex.BottomRight:
-                GetTileByIndex(2, 2).SetPosition(VisibleTopLeft.position);
-                GetTileByIndex(2, 3).SetPosition(VisibleTopRight.position);
-                GetTileByIndex(3, 2).SetPosition(VisibleBottomLeft.position);
-                GetTileByIndex(3, 3).SetPosition(VisibleBottomRight.position);
-
-                GetTileByIndex(2, 2).Show();
-                GetTileByIndex(2, 3).Show();
-                GetTileByIndex(3, 2).Show();
-                GetTileByIndex(3, 3).Show();
-                break;
-        }
-    }
-    */
-
 
 
     private void InitializeTiles(Level level)
@@ -283,8 +221,6 @@ public class GridController : MonoBehaviour
         }
     }
 
-
-
     [PunRPC]
     private void InputReceived(int player, byte button)
     {
@@ -292,12 +228,12 @@ public class GridController : MonoBehaviour
         {
             PlayerIndex p = (PlayerIndex)player;
             EInput b = (EInput)button;
-            // process input
 
-            Debug.LogError($"{p} moved {b}");
+            // Process input
+
+            Debug.Log($"{p} moved {b}");
         }
     }
-
 
     private TileController GetTileByIndex(int xIndex, int yIndex)
     {
@@ -351,7 +287,7 @@ public class GridController : MonoBehaviour
         int tileWidth = 3;
         int tileHeight = 3;
 
-        var grid = new bool[tileWidth * gridWidth,tileHeight * gridHeight];
+        var grid = new bool[tileWidth * gridWidth, tileHeight * gridHeight];
 
         int tileIndex = 0;
         int colIndex = 0;
@@ -394,7 +330,7 @@ public class GridController : MonoBehaviour
         var path = Pathfinding.FindPath(
             new NesScripts.Controls.PathFind.Grid(tileWidth * gridWidth, tileHeight * gridHeight, grid), start, finish,
             true);
-#if DEBUG
+
         StringBuilder builder = new StringBuilder();
 
         for (int x = 0; x < tileWidth * gridWidth; x++)
@@ -417,7 +353,6 @@ public class GridController : MonoBehaviour
             builder.Append(Environment.NewLine);
         }
         Debug.Log(builder.ToString());
-#endif
 
         return path.Count > 0;
     }
