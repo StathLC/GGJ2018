@@ -7,10 +7,7 @@ public class GameInitializer : MonoBehaviour
 {
     public NetworkController NetworkController;
     public GameObject CanvasGameObject;
-    public GameObject BackgroundGameObject;
     public GameObject CameraGameObject;
-    public GameObject EventSystemGameObject;
-    public GameObject DirectionalLightGameObject;
 
     void OnEnable()
     {
@@ -25,10 +22,7 @@ public class GameInitializer : MonoBehaviour
     private void NetworkController_OnGameStarted()
     {
         CanvasGameObject.SetActive(false);
-        BackgroundGameObject.SetActive(false);
         CameraGameObject.SetActive(false);
-        EventSystemGameObject.SetActive(false);
-        DirectionalLightGameObject.SetActive(false);
 
         SceneManager.LoadScene("Gameplay", LoadSceneMode.Additive);
     }
