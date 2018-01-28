@@ -221,6 +221,20 @@ public class GridController : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    private void InputReceived(int player, byte button)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            PlayerIndex p = (PlayerIndex)player;
+            EInput b = (EInput)button;
+
+            // Process input
+
+            Debug.Log($"{p} moved {b}");
+        }
+    }
+
     private TileController GetTileByIndex(int xIndex, int yIndex)
     {
         return Tiles[xIndex + yIndex * xSize];
@@ -333,7 +347,7 @@ public class GridController : MonoBehaviour
                 }
                 else
                 {
-                    builder.Append(grid[x, y] ? 1 : 0);
+                    builder.Append(grid[y, x] ? 1 : 0);
                 }
             }
             builder.Append(Environment.NewLine);
