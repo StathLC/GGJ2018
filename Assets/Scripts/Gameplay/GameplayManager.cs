@@ -18,10 +18,10 @@ public class GameplayManager : MonoBehaviour
 
     void Start()
     {
-        Grid.Initialize(CreateLevel1());
 
         if (PhotonNetwork.isMasterClient == true)
         {
+            Grid.Initialize(CreateLevel1());
             StartCoroutine(InitializeAsMaster());
         }
     }
@@ -31,13 +31,19 @@ public class GameplayManager : MonoBehaviour
         NetworkController.Instance.OnAssignPlayerIndex += NetworkContoller_OnAssignPlayerIndex;
         NetworkController.Instance.OnAssignButtonFunctionalities += NetworkController_OnAssignButtonFunctionalities;
         NetworkController.Instance.OnBoardActionInitiated += NetworkController_OnBoardActionInitiated;
+        NetworkController.Instance.OnLevelGenerated += Instance_OnLevelGenerated; ;
     }
-    
+
+    private void Instance_OnLevelGenerated(Level level)
+    {
+        Grid.Initialize(level);
+    }
 
     void OnDisable()
     {
         NetworkController.Instance.OnAssignPlayerIndex -= NetworkContoller_OnAssignPlayerIndex;
         NetworkController.Instance.OnAssignButtonFunctionalities -= NetworkController_OnAssignButtonFunctionalities;
+        NetworkController.Instance.OnLevelGenerated -= Instance_OnLevelGenerated; ;
     }
 
 
@@ -76,6 +82,7 @@ public class GameplayManager : MonoBehaviour
         Level level = new Level();
         level.TileConfigurations = tileConfigurations;
 
+        NetworkController.Instance.SendMap(level);
         return level;
     }
 

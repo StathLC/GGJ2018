@@ -17,6 +17,7 @@ public class NetworkController : Photon.PunBehaviour
     public event GameStarted OnGameStarted;
     public event GameCompleted OnGameCompleted;
     public event MasterMovement OnMasterMovement;
+    public event LevelGenerated OnLevelGenerated;
     public event PlayerMovement OnPlayerMovement;
     public event RoomMasterChanged OnRoomMasterChanged;
     public Action<PlayerIndex> OnAssignPlayerIndex;
@@ -308,6 +309,24 @@ public class NetworkController : Photon.PunBehaviour
         }
     }
 
+
+    public void SendMap(Level level)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            var json = JsonConvert.SerializeObject(level);
+            photonView.RPC("ReceiveMap", PhotonTargets.Others, json);
+        }
+    }
+
+    [PunRPC]
+    private void ReceiveMap(string json)
+    {
+        var level = JsonConvert.DeserializeObject<Level>(json);
+        OnLevelGenerated?.Invoke(level);
+    }
+
+
     public void SendCompletionMessage(bool win)
     {
         if (PhotonNetwork.isMasterClient)
@@ -424,6 +443,7 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void LobbyJoined();
     public delegate void LobbyLeft();
     public delegate void GameStarted();
+    public delegate void LevelGenerated(Level level);
     public delegate void RoomMasterChanged();
     public delegate void GameCompleted(bool win);
     public delegate void MasterMovement(int player, int button);
