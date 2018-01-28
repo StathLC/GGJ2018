@@ -112,6 +112,17 @@ public class NetworkController : Photon.PunBehaviour
         Debug.Log(newPlayer.NickName);
     }
 
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (_gameRunning)
+            {
+                SendCompletionMessage(false);
+            }
+        }
+    }
+
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
