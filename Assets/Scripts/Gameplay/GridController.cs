@@ -251,6 +251,22 @@ public class GridController : MonoBehaviour
         }
     }
 
+
+
+    [PunRPC]
+    private void InputReceived(int player, byte button)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            PlayerIndex p = (PlayerIndex)player;
+            EInput b = (EInput)button;
+            // process input
+
+            Debug.LogError($"{p} moved {b}");
+        }
+    }
+
+
     private TileController GetTileByIndex(int xIndex, int yIndex)
     {
         return Tiles[xIndex + yIndex * xSize];
@@ -346,7 +362,7 @@ public class GridController : MonoBehaviour
         var path = Pathfinding.FindPath(
             new NesScripts.Controls.PathFind.Grid(tileWidth * gridWidth, tileHeight * gridHeight, grid), start, finish,
             true);
-        
+#if DEBUG
         StringBuilder builder = new StringBuilder();
 
         for (int x = 0; x < tileWidth * gridWidth; x++)
@@ -363,12 +379,13 @@ public class GridController : MonoBehaviour
                 }
                 else
                 {
-                    builder.Append(grid[x, y] ? 1 : 0);
+                    builder.Append(grid[y, x] ? 1 : 0);
                 }
             }
             builder.Append(Environment.NewLine);
         }
         Debug.Log(builder.ToString());
+#endif
 
         return path.Count > 0;
     }

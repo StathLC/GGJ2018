@@ -152,13 +152,31 @@ public class NetworkController : Photon.PunBehaviour
     {
         PhotonNetwork.LeaveLobby();
     }
-
+    
     public void StartGame()
     {
+        PhotonNetwork.RaiseEvent(0, new byte[] {0, 1, 2, 3}, true, null);
         OnGameStarted?.Invoke();
         // TODO: Load additive scene -> gameplay scene.
     }
 
+    public void SendPlayerMovement(EInput button)
+    {
+        photonView.RPC("InputReceived", PhotonTargets.MasterClient, photonView.ownerId, (int)button);
+    }
+
+    [PunRPC]
+    private void InputReceived(int player, int button)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            PlayerIndex p = (PlayerIndex)player;
+            EInput b = (EInput)button;
+            // process input
+
+            Debug.LogError($"{p} moved {b}");
+        }
+    }
 
     void Update()
     {
@@ -202,5 +220,6 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void LobbyJoined();
     public delegate void LobbyLeft();
     public delegate void GameStarted();
+    
 
 }
