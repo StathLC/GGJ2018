@@ -75,8 +75,8 @@ namespace Levels
         {
             new TileConfiguration(top:false,bottom:true,right:false,left:false,entrance:true,exit:false),//[0,0]
             new TileConfiguration(top:true,bottom:false,right:true,left:false,entrance:false,exit:false),//[0,1]
-            new TileConfiguration(top:false,bottom:false,right:false,left:true,entrance:false,exit:false),//[0,2]
-            new TileConfiguration(top:false,bottom:true,right:false,left:false,entrance:false,exit:false),//[0,3]
+            new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[0,2]
+            new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[0,3]
 
             new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[1,0]
             new TileConfiguration(top:false,bottom:true,right:false,left:true,entrance:false,exit:false),//[1,1]

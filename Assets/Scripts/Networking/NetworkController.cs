@@ -18,6 +18,7 @@ public class NetworkController : Photon.PunBehaviour
     public event GameCompleted OnGameCompleted;
     public event MasterMovement OnMasterMovement;
     public event PlayerMovement OnPlayerMovement;
+    public event RoomMasterChanged OnRoomMasterChanged;
     public Action<PlayerIndex> OnAssignPlayerIndex;
     public Action<ButtonFunctionalityType[]> OnAssignButtonFunctionalities;
     public Action<ButtonFunctionalityType> OnBoardActionInitiated;
@@ -26,6 +27,7 @@ public class NetworkController : Photon.PunBehaviour
     public static NetworkController Instance { get; private set; }
     public ConnectionState CurrentConnectionState { get; private set; }
     public ExitGames.Client.Photon.LoadBalancing.ClientState CurrentClientState { get; private set; }
+    private bool _gameRunning = false;
 
     public void Awake()
     {
@@ -84,6 +86,16 @@ public class NetworkController : Photon.PunBehaviour
         OnClientStateChanged?.Invoke(this, obj);
     }
 
+    public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (_gameRunning)
+            {
+                SendCompletionMessage(false);
+            }
+        }
+    }
 
     public override void OnJoinedLobby()
     {
@@ -147,6 +159,13 @@ public class NetworkController : Photon.PunBehaviour
 
     public void LeaveRoom()
     {
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (_gameRunning)
+            {
+                SendCompletionMessage(false);
+            }
+        }
         PhotonNetwork.LeaveRoom();
     }
 
@@ -290,6 +309,7 @@ public class NetworkController : Photon.PunBehaviour
     private void RecievedStartGame()
     {
         Debug.Log("NetworkController: ReceivedStartGame");
+        _gameRunning = true;
         OnGameStarted?.Invoke();
     }
 
@@ -355,8 +375,7 @@ public class NetworkController : Photon.PunBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OnGameCompleted?.Invoke(true);
-            //Application.Quit();
+            Application.Quit();
         }
         if (PhotonNetwork.connectionState != CurrentConnectionState)
         {
@@ -394,6 +413,7 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void LobbyJoined();
     public delegate void LobbyLeft();
     public delegate void GameStarted();
+    public delegate void RoomMasterChanged();
     public delegate void GameCompleted(bool win);
     public delegate void MasterMovement(int player, int button);
     public delegate void PlayerMovement(int row, int col, int direction);

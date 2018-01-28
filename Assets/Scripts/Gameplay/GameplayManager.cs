@@ -32,6 +32,7 @@ public class GameplayManager : MonoBehaviour
         NetworkController.Instance.OnAssignButtonFunctionalities += NetworkController_OnAssignButtonFunctionalities;
         NetworkController.Instance.OnBoardActionInitiated += NetworkController_OnBoardActionInitiated;
     }
+    
 
     void OnDisable()
     {
