@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class NetworkController : Photon.PunBehaviour
@@ -255,7 +256,7 @@ public class NetworkController : Photon.PunBehaviour
             });
         }
 
-        photonView.RPC("ReceivedAssignButtonFunctionalities", PhotonTargets.All, assignButtonFunctionalitiesParameters);
+        photonView.RPC("ReceivedAssignButtonFunctionalities", PhotonTargets.All, JsonConvert.SerializeObject(assignButtonFunctionalitiesParameters));
         //PhotonNetwork.RaiseEvent(2, assignButtonFunctionalitiesParameters, true, assignButtonFunctionalitiesOptions);
     }
 
@@ -302,12 +303,11 @@ public class NetworkController : Photon.PunBehaviour
     }
 
     [PunRPC]
-    private void ReceivedAssignButtonFunctionalities(object content)
+    private void ReceivedAssignButtonFunctionalities(string content)
     {
-        Dictionary<int, int[]> objDict = content as Dictionary<int, int[]>;
-
+        var dic = JsonConvert.DeserializeObject<Dictionary<int, int[]>>(content);
         ButtonFunctionalityType[] types = new ButtonFunctionalityType[2];
-        foreach (KeyValuePair<int, int[]> kvp in objDict)
+        foreach (KeyValuePair<int, int[]> kvp in dic)
         {
             if (kvp.Key == PhotonNetwork.player.ID)
             {
