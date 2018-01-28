@@ -172,7 +172,10 @@ public class NetworkController : Photon.PunBehaviour
 
     public void SendPlayerMovementToPlayers(int row, int col, int direction)
     {
-        photonView.RPC("InputReceived", PhotonTargets.All, row, col, direction);
+        if (PhotonNetwork.isMasterClient)
+        {
+            photonView.RPC("InputReceived", PhotonTargets.All, row, col, direction);
+        }
     }
 
     public void SendCompletionMessage(bool win)
