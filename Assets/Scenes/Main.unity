@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657856, g: 0.49641234, b: 0.57481724, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -11127,6 +11127,52 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &667821897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 667821899}
+  - component: {fileID: 667821898}
+  m_Layer: 0
+  m_Name: Game Initializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &667821898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667821897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc233ad9c1e94751808202fc240adf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkController: {fileID: 1231328814}
+  CanvasGameObject: {fileID: 1414334817}
+  BackgroundGameObject: {fileID: 35877058}
+  CameraGameObject: {fileID: 572086654}
+  EventSystemGameObject: {fileID: 1478174329}
+  DirectionalLightGameObject: {fileID: 1978088286}
+--- !u!4 &667821899
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667821897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &667968338
 GameObject:
   m_ObjectHideFlags: 0
@@ -22385,6 +22431,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44ed597789ffc174b87bf2faa2a5816b, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1231328814 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114304295293702792, guid: 44ed597789ffc174b87bf2faa2a5816b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1231328813}
+  m_Script: {fileID: 11500000, guid: c9ab56862487fab40bfaf4ad421de670, type: 3}
 --- !u!1 &1235218897
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,19 @@
+﻿public enum ButtonFunctionalityType
+{
+    MoveColumn0Up,
+    MoveColumn0Down,
+    MoveColumn1Up,
+    MoveColumn1Down,
+    MoveColumn2Up,
+    MoveColumn2Down,
+    MoveColumn3Up,
+    MoveColumn3Down,
+    MoveRow0Right,
+    MoveRow0Left,
+    MoveRow1Right,
+    MoveRow1Left,
+    MoveRow2Right,
+    MoveRow2Left,
+    MoveRow3Right,
+    MoveRow3Left,
+}

@@ -2170,7 +2170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e81f4549a2e14f7f947f81d8a036e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraOffset: 26
+  PlayerIndex: 2
   Grid: {fileID: 277957575}
+  UIController: {fileID: 1250198134}
+  CameraTransform: {fileID: 697332499}
 --- !u!4 &1788672870
 Transform:
   m_ObjectHideFlags: 0

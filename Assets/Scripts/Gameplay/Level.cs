@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+[Serializable]
 public class Level
 {
-    public List<TileConfiguration> TileConfigurations;
+    public TileConfiguration[] TileConfigurations;
 }

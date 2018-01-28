@@ -20,6 +20,8 @@ public class GridController : MonoBehaviour
     public Transform VisibleBottomLeft;
     public Transform VisibleBottomRight;
 
+    private bool isAnimationPlayingNow = false;
+
 
 
     public void Initialize(Level level)
@@ -30,11 +32,16 @@ public class GridController : MonoBehaviour
 
     public void MoveColumnUp(int columnIndex)
     {
+        if (isAnimationPlayingNow == true)
+            return;
+
         GetTileByIndex(columnIndex, 0).SetVisualPositionY(GetInvisibleBottomYPosition());
         GetTileByIndex(columnIndex, 0).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(columnIndex, 1).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(columnIndex, 2).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(columnIndex, 3).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
+
+        isAnimationPlayingNow = true;
 
         StartCoroutine(CallbackAfterAnimationDelay(() =>
         {
@@ -52,16 +59,23 @@ public class GridController : MonoBehaviour
 
             SetAllTilesVisualGameObjectsLocalPositionsToZero();
             ReassignAllTilesVisualGameObjects();
+
+            isAnimationPlayingNow = false;
         }));
     }
 
     public void MoveColumnDown(int columnIndex)
     {
+        if (isAnimationPlayingNow == true)
+            return;
+
         GetTileByIndex(columnIndex, 3).SetVisualPositionY(GetInvisibleTopYPosition());
         GetTileByIndex(columnIndex, 0).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(columnIndex, 1).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(columnIndex, 2).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(columnIndex, 3).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
+
+        isAnimationPlayingNow = true;
 
         StartCoroutine(CallbackAfterAnimationDelay(() =>
         {
@@ -79,15 +93,22 @@ public class GridController : MonoBehaviour
 
             SetAllTilesVisualGameObjectsLocalPositionsToZero();
             ReassignAllTilesVisualGameObjects();
+
+            isAnimationPlayingNow = false;
         }));
     }
 
     public void MoveRowLeft(int rowIndex)
     {
+        if (isAnimationPlayingNow == true)
+            return;
+
         GetTileByIndex(0, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(1, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(2, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(3, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
+
+        isAnimationPlayingNow = true;
 
         StartCoroutine(CallbackAfterAnimationDelay(() =>
         {
@@ -105,15 +126,22 @@ public class GridController : MonoBehaviour
 
             SetAllTilesVisualGameObjectsLocalPositionsToZero();
             ReassignAllTilesVisualGameObjects();
+
+            isAnimationPlayingNow = false;
         }));
     }
 
     public void MoveRowRight(int rowIndex)
     {
+        if (isAnimationPlayingNow == true)
+            return;
+
         GetTileByIndex(0, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(1, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(2, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(3, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
+
+        isAnimationPlayingNow = true;
 
         StartCoroutine(CallbackAfterAnimationDelay(() =>
         {
@@ -131,9 +159,12 @@ public class GridController : MonoBehaviour
 
             SetAllTilesVisualGameObjectsLocalPositionsToZero();
             ReassignAllTilesVisualGameObjects();
+
+            isAnimationPlayingNow = false;
         }));
     }
 
+    /*
     public void ArrangeGridByPlayerIndex(PlayerIndex playerIndex)
     {
         HideAllTiles();
@@ -189,6 +220,7 @@ public class GridController : MonoBehaviour
                 break;
         }
     }
+    */
 
 
 
@@ -220,7 +252,7 @@ public class GridController : MonoBehaviour
 
     private void PopulateTilesByLevel(Level level)
     {
-        for (int i = 0; i < level.TileConfigurations.Count; i++)
+        for (int i = 0; i < level.TileConfigurations.Length; i++)
         {
             TileConfiguration tileConfiguration = level.TileConfigurations[i];
             TileController tile = Tiles[i];
