@@ -13,6 +13,9 @@ public class NetworkController : Photon.PunBehaviour
     public event LobbyJoined OnLobbyJoined;
     public event LobbyLeft OnLobbyLeft;
     public event GameStarted OnGameStarted;
+    public event GameCompleted OnGameCompleted;
+    public event MasterMovement OnMasterMovement;
+    public event PlayerMovement OnPlayerMovement;
 
 
     public static NetworkController Instance { get; private set; }
@@ -153,11 +156,61 @@ public class NetworkController : Photon.PunBehaviour
     {
         PhotonNetwork.LeaveLobby();
     }
-
+    
     public void StartGame()
     {
+        if (PhotonNetwork.isMasterClient)
+        {
+            photonView.RPC("RecievedStartGame", PhotonTargets.All);
+        }
+    }
+
+    public void SendPlayerMovementToMaster(EInput button)
+    {
+        photonView.RPC("InputReceived", PhotonTargets.MasterClient, photonView.ownerId, (int)button);
+    }
+
+    public void SendPlayerMovementToPlayers(int row, int col, int direction)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            photonView.RPC("InputReceived", PhotonTargets.All, row, col, direction);
+        }
+    }
+
+    public void SendCompletionMessage(bool win)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            photonView.RPC("RecievedCompletionMessage", PhotonTargets.All, win);
+        }
+    }
+
+    [PunRPC]
+    private void RecievedStartGame()
+    {
         OnGameStarted?.Invoke();
-        // TODO: Load additive scene -> gameplay scene.
+    }
+
+    [PunRPC]
+    private void RecievedCompletionMessage(bool win)
+    {
+        OnGameCompleted?.Invoke(win);
+    }
+    
+    [PunRPC]
+    private void InputReceived(int player, int button)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            OnMasterMovement?.Invoke(player, button);
+        }
+    }
+    
+    [PunRPC]
+    private void InputReceived(int row, int col, int direction)
+    {
+        OnPlayerMovement?.Invoke(row, col, direction);
     }
 
 
@@ -203,5 +256,9 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void LobbyJoined();
     public delegate void LobbyLeft();
     public delegate void GameStarted();
+    public delegate void GameCompleted(bool win);
+    public delegate void MasterMovement(int player,int button);
+    public delegate void PlayerMovement(int row, int col, int direction);
+
 
 }
