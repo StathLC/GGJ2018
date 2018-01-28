@@ -13,6 +13,9 @@ public class NetworkController : Photon.PunBehaviour
     public event LobbyJoined OnLobbyJoined;
     public event LobbyLeft OnLobbyLeft;
     public event GameStarted OnGameStarted;
+    public event GameCompleted OnGameCompleted;
+    public event MasterMovement OnMasterMovement;
+    public event PlayerMovement OnPlayerMovement;
 
 
     public static NetworkController Instance { get; private set; }
@@ -156,28 +159,57 @@ public class NetworkController : Photon.PunBehaviour
     
     public void StartGame()
     {
-        PhotonNetwork.RaiseEvent(0, new byte[] {0, 1, 2, 3}, true, null);
-        OnGameStarted?.Invoke();
-        // TODO: Load additive scene -> gameplay scene.
+        if (PhotonNetwork.isMasterClient)
+        {
+            photonView.RPC("RecievedStartGame", PhotonTargets.All);
+        }
     }
 
-    public void SendPlayerMovement(EInput button)
+    public void SendPlayerMovementToMaster(EInput button)
     {
         photonView.RPC("InputReceived", PhotonTargets.MasterClient, photonView.ownerId, (int)button);
     }
 
+    public void SendPlayerMovementToPlayers(int row, int col, int direction)
+    {
+        photonView.RPC("InputReceived", PhotonTargets.All, row, col, direction);
+    }
+
+    public void SendCompletionMessage(bool win)
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            photonView.RPC("RecievedCompletionMessage", PhotonTargets.All, win);
+        }
+    }
+
+    [PunRPC]
+    private void RecievedStartGame()
+    {
+        OnGameStarted?.Invoke();
+    }
+
+    [PunRPC]
+    private void RecievedCompletionMessage(bool win)
+    {
+        OnGameCompleted?.Invoke(win);
+    }
+    
     [PunRPC]
     private void InputReceived(int player, int button)
     {
         if (PhotonNetwork.isMasterClient)
         {
-            PlayerIndex p = (PlayerIndex)player;
-            EInput b = (EInput)button;
-            // process input
-
-            Debug.LogError($"{p} moved {b}");
+            OnMasterMovement?.Invoke(player, button);
         }
     }
+    
+    [PunRPC]
+    private void InputReceived(int row, int col, int direction)
+    {
+        OnPlayerMovement?.Invoke(row, col, direction);
+    }
+
 
     void Update()
     {
@@ -221,6 +253,9 @@ public class NetworkController : Photon.PunBehaviour
     public delegate void LobbyJoined();
     public delegate void LobbyLeft();
     public delegate void GameStarted();
-    
+    public delegate void GameCompleted(bool win);
+    public delegate void MasterMovement(int player,int button);
+    public delegate void PlayerMovement(int row, int col, int direction);
+
 
 }
