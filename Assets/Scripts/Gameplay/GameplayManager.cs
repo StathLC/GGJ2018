@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,31 +53,27 @@ public class GameplayManager : MonoBehaviour
 
     private Level CreateLevel1()
     {
-        List<TileConfiguration> tileConfigurations = new List<TileConfiguration>()
+
+        var x = UnityEngine.Random.Range(0, 3);
+        TileConfiguration[] tileConfigurations;
+        switch (x)
         {
-            new TileConfiguration(top:false,bottom:false,right:true,left:false,entrance:true,exit:false),//[0,0]
-            new TileConfiguration(top:false,bottom:true,right:false,left:true,entrance:false,exit:false),//[0,1]
-            new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[0,2]
-            new TileConfiguration(top:false,bottom:true,right:false,left:false,entrance:false,exit:true),//[0,3]
-
-            new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[1,0]
-            new TileConfiguration(top:true,bottom:true,right:false,left:false,entrance:false,exit:false),//[1,1]
-            new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[1,2]
-            new TileConfiguration(top:true,bottom:true,right:false,left:false,entrance:false,exit:false),//[1,3]
-
-            new TileConfiguration(top:true,bottom:true,right:true,left:true,entrance:false,exit:false),//[2,0]
-            new TileConfiguration(top:true,bottom:false,right:false,left:true,entrance:false,exit:false),//[2,1]
-            new TileConfiguration(top:false,bottom:false,right:false,left:false,entrance:false,exit:false),//[2,2]
-            new TileConfiguration(top:true,bottom:true,right:false,left:false,entrance:false,exit:false),//[2,3]
-
-            new TileConfiguration(top:true,bottom:false,right:true,left:false,entrance:false,exit:false),//[3,0]
-            new TileConfiguration(top:false,bottom:false,right:true,left:true,entrance:false,exit:false),//[3,1]
-            new TileConfiguration(top:false,bottom:false,right:true,left:true,entrance:false,exit:false),//[3,2]
-            new TileConfiguration(top:true,bottom:false,right:true,left:true,entrance:false,exit:false),//[3,3]
-        };
-
+            case 0:
+                tileConfigurations = Levels.Configurations.Level1;
+                break;
+            case 1:
+                tileConfigurations = Levels.Configurations.Level2;
+                break;
+            case 2:
+                tileConfigurations = Levels.Configurations.Level3;
+                break;
+            default:
+                tileConfigurations = Levels.Configurations.Level1;
+                break;
+                
+        }
         Level level = new Level();
-        level.TileConfigurations = tileConfigurations.ToArray();
+        level.TileConfigurations = tileConfigurations;
 
         return level;
     }
