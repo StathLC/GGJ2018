@@ -25,6 +25,7 @@ namespace ExitGames.Demos.DemoPunVoice
         private Button pushToTalkButton;
 
         public Sprite TalkingButton;
+        public Sprite MissingMic;
         public Image PushToTalkImage;
 
         /// <summary>The button's text, so we can change it.</summary>
@@ -63,7 +64,7 @@ namespace ExitGames.Demos.DemoPunVoice
         {
             if (pushToTalkButton != null)
             {
-                PushToTalkImage.overrideSprite = pttOn ? TalkingButton : null;
+                PushToTalkImage.overrideSprite = Microphone.devices.Length == 0 ? MissingMic : (pttOn ? TalkingButton : null);
                 pushToTalkText = pushToTalkButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (pushToTalkText != null)
                 {
@@ -158,7 +159,7 @@ namespace ExitGames.Demos.DemoPunVoice
             CurrentTargetGroup = group;
             if (group == 0)
             {
-                PushToTalkImage.overrideSprite = pttOn ? TalkingButton : null;
+                PushToTalkImage.overrideSprite = Microphone.devices.Length == 0 ? MissingMic : (pttOn ? TalkingButton : null);
             }
         }
 
@@ -177,7 +178,7 @@ namespace ExitGames.Demos.DemoPunVoice
         {
             PushToTalkOff(0);
             if (pushToTalkText != null) { pushToTalkText.text = "Talk-To-All"; }
-            PushToTalkImage.overrideSprite = pttOn ? TalkingButton : null;
+            PushToTalkImage.overrideSprite = Microphone.devices.Length == 0 ? MissingMic : (pttOn ? TalkingButton : null);
         }
 
         /// <summary>Activates Push-To-Talk feature for global audio group: 0</summary>
@@ -199,7 +200,7 @@ namespace ExitGames.Demos.DemoPunVoice
                 PushToTalkOn();
                 pttOn = true;
             }
-            PushToTalkImage.overrideSprite = pttOn ? TalkingButton : null;
+            PushToTalkImage.overrideSprite = Microphone.devices.Length == 0 ? MissingMic : (pttOn ? TalkingButton : null);
         }
 
         /// <summary>
