@@ -379,6 +379,7 @@ public class NetworkController : Photon.PunBehaviour
     [PunRPC]
     private void RecievedCompletionMessage(bool win)
     {
+        _gameRunning = false;
         Debug.Log("NetworkController: ReceivedCompletionMessage: " + win);
         OnGameCompleted?.Invoke(win);
     }

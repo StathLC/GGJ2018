@@ -15279,12 +15279,17 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 1231328814}
+  - {fileID: 850556869}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 1
   instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!4 &850556869 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4010349240272604, guid: 44ed597789ffc174b87bf2faa2a5816b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1231328813}
 --- !u!1 &857376350
 GameObject:
   m_ObjectHideFlags: 0
