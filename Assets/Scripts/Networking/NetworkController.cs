@@ -218,7 +218,8 @@ public class NetworkController : Photon.PunBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            OnGameCompleted?.Invoke(true);
+            //Application.Quit();
         }
         if (PhotonNetwork.connectionState != CurrentConnectionState)
         {

@@ -37,4 +37,6 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - InputReceived
+  - RecievedCompletionMessage
+  - RecievedStartGame
   DisableAutoOpenWizard: 1
