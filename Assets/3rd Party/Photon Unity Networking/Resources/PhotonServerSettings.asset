@@ -41,4 +41,5 @@ MonoBehaviour:
   - RecievedStartGame
   - ReceivedAssignButtonFunctionalities
   - ReceivedAssignPlayerIndices
+  - ReceivedBoardActionInitiated
   DisableAutoOpenWizard: 1

@@ -19,6 +19,7 @@ public class NetworkController : Photon.PunBehaviour
     public event PlayerMovement OnPlayerMovement;
     public Action<PlayerIndex> OnAssignPlayerIndex;
     public Action<ButtonFunctionalityType[]> OnAssignButtonFunctionalities;
+    public Action<ButtonFunctionalityType> OnBoardActionInitiated;
 
 
     public static NetworkController Instance { get; private set; }
@@ -194,11 +195,11 @@ public class NetworkController : Photon.PunBehaviour
 
         ArrayShuffler.Shuffle(playerIndices);
 
-        Dictionary<int, PlayerIndex> assignPlayerIndicesParameters = new Dictionary<int, PlayerIndex>();
-        assignPlayerIndicesParameters.Add(playerIds[0], playerIndices[0]);
-        assignPlayerIndicesParameters.Add(playerIds[1], playerIndices[1]);
-        if (playerIds.Count > 2) assignPlayerIndicesParameters.Add(playerIds[2], playerIndices[2]);
-        if (playerIds.Count > 3) assignPlayerIndicesParameters.Add(playerIds[3], playerIndices[3]);
+        Dictionary<int, int> assignPlayerIndicesParameters = new Dictionary<int, int>();
+        assignPlayerIndicesParameters.Add(playerIds[0], (int)playerIndices[0]);
+        assignPlayerIndicesParameters.Add(playerIds[1], (int)playerIndices[1]);
+        if (playerIds.Count > 2) assignPlayerIndicesParameters.Add(playerIds[2], (int)playerIndices[2]);
+        if (playerIds.Count > 3) assignPlayerIndicesParameters.Add(playerIds[3], (int)playerIndices[3]);
 
         photonView.RPC("ReceivedAssignPlayerIndices", PhotonTargets.All, assignPlayerIndicesParameters);
         //PhotonNetwork.RaiseEvent(1, assignPlayerIndicesParameters, true, assignPlayerIndicesOptions);
@@ -226,36 +227,41 @@ public class NetworkController : Photon.PunBehaviour
 
         ArrayShuffler.Shuffle(buttonFunctionalityTypes);
 
-        Dictionary<int, ButtonFunctionalityType[]> assignButtonFunctionalitiesParameters = new Dictionary<int, ButtonFunctionalityType[]>();
-        assignButtonFunctionalitiesParameters.Add(playerIds[0], new ButtonFunctionalityType[]
+        Dictionary<int, int[]> assignButtonFunctionalitiesParameters = new Dictionary<int, int[]>();
+        assignButtonFunctionalitiesParameters.Add(playerIds[0], new int[]
         {
-            buttonFunctionalityTypes[0],
-            buttonFunctionalityTypes[1]
+            (int)buttonFunctionalityTypes[0],
+            (int)buttonFunctionalityTypes[1]
         });
-        assignButtonFunctionalitiesParameters.Add(playerIds[1], new ButtonFunctionalityType[]
+        assignButtonFunctionalitiesParameters.Add(playerIds[1], new int[]
         {
-            buttonFunctionalityTypes[2],
-            buttonFunctionalityTypes[3]
+            (int)buttonFunctionalityTypes[2],
+            (int)buttonFunctionalityTypes[3]
         });
         if (playerIds.Count > 2)
         {
-            assignButtonFunctionalitiesParameters.Add(playerIds[2], new ButtonFunctionalityType[]
+            assignButtonFunctionalitiesParameters.Add(playerIds[2], new int[]
             {
-                buttonFunctionalityTypes[4],
-                buttonFunctionalityTypes[5]
+                (int)buttonFunctionalityTypes[4],
+                (int)buttonFunctionalityTypes[5]
             });
         }
         if (playerIds.Count > 3)
         {
-            assignButtonFunctionalitiesParameters.Add(playerIds[3], new ButtonFunctionalityType[]
+            assignButtonFunctionalitiesParameters.Add(playerIds[3], new int[]
             {
-                buttonFunctionalityTypes[6],
-                buttonFunctionalityTypes[7]
+                (int)buttonFunctionalityTypes[6],
+                (int)buttonFunctionalityTypes[7]
             });
         }
 
         photonView.RPC("ReceivedAssignButtonFunctionalities", PhotonTargets.All, assignButtonFunctionalitiesParameters);
         //PhotonNetwork.RaiseEvent(2, assignButtonFunctionalitiesParameters, true, assignButtonFunctionalitiesOptions);
+    }
+
+    public void SendBoardActionInitiated(ButtonFunctionalityType type)
+    {
+        photonView.RPC("ReceivedBoardActionInitiated", PhotonTargets.Others, (int)type);
     }
 
     public void SendPlayerMovementToMaster(EInput button)
@@ -298,9 +304,26 @@ public class NetworkController : Photon.PunBehaviour
     [PunRPC]
     private void ReceivedAssignButtonFunctionalities(object content)
     {
-        Dictionary<int, ButtonFunctionalityType[]> objDict = content as Dictionary<int, ButtonFunctionalityType[]>;
+        Dictionary<int, int[]> objDict = content as Dictionary<int, int[]>;
 
-        OnAssignButtonFunctionalities(objDict[PhotonNetwork.player.ID]);
+        ButtonFunctionalityType[] types = new ButtonFunctionalityType[2];
+        foreach (KeyValuePair<int, int[]> kvp in objDict)
+        {
+            if (kvp.Key == PhotonNetwork.player.ID)
+            {
+                types[0] = (ButtonFunctionalityType)kvp.Value[0];
+                types[1] = (ButtonFunctionalityType)kvp.Value[1];
+            }
+        }
+
+        //OnAssignButtonFunctionalities(objDict[PhotonNetwork.player.ID]);
+        OnAssignButtonFunctionalities(types);
+    }
+
+    [PunRPC]
+    private void ReceivedBoardActionInitiated(int type)
+    {
+        OnBoardActionInitiated?.Invoke((ButtonFunctionalityType)type);
     }
 
     [PunRPC]

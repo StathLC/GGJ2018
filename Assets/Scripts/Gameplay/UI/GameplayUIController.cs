@@ -8,7 +8,7 @@ public class GameplayUIController : MonoBehaviour
     public GridController Grid;
 
     private Action LeftButtonClickAction;
-    private Action RightButtonClicAction;
+    private Action RightButtonClickAction;
 
 
 
@@ -87,67 +87,67 @@ public class GameplayUIController : MonoBehaviour
         switch (type)
         {
             case ButtonFunctionalityType.MoveColumn0Down:
-                RightButtonClicAction = MoveColumn0Down;
+                RightButtonClickAction = MoveColumn0Down;
                 break;
 
             case ButtonFunctionalityType.MoveColumn0Up:
-                RightButtonClicAction = MoveColumn0Up;
+                RightButtonClickAction = MoveColumn0Up;
                 break;
 
             case ButtonFunctionalityType.MoveColumn1Down:
-                RightButtonClicAction = MoveColumn1Down;
+                RightButtonClickAction = MoveColumn1Down;
                 break;
 
             case ButtonFunctionalityType.MoveColumn1Up:
-                RightButtonClicAction = MoveColumn1Up;
+                RightButtonClickAction = MoveColumn1Up;
                 break;
 
             case ButtonFunctionalityType.MoveColumn2Down:
-                RightButtonClicAction = MoveColumn2Down;
+                RightButtonClickAction = MoveColumn2Down;
                 break;
 
             case ButtonFunctionalityType.MoveColumn2Up:
-                RightButtonClicAction = MoveColumn2Up;
+                RightButtonClickAction = MoveColumn2Up;
                 break;
 
             case ButtonFunctionalityType.MoveColumn3Down:
-                RightButtonClicAction = MoveColumn3Down;
+                RightButtonClickAction = MoveColumn3Down;
                 break;
 
             case ButtonFunctionalityType.MoveColumn3Up:
-                RightButtonClicAction = MoveColumn3Up;
+                RightButtonClickAction = MoveColumn3Up;
                 break;
 
             case ButtonFunctionalityType.MoveRow0Left:
-                RightButtonClicAction = MoveRow0Left;
+                RightButtonClickAction = MoveRow0Left;
                 break;
 
             case ButtonFunctionalityType.MoveRow0Right:
-                RightButtonClicAction = MoveRow0Right;
+                RightButtonClickAction = MoveRow0Right;
                 break;
 
             case ButtonFunctionalityType.MoveRow1Left:
-                RightButtonClicAction = MoveRow1Left;
+                RightButtonClickAction = MoveRow1Left;
                 break;
 
             case ButtonFunctionalityType.MoveRow1Right:
-                RightButtonClicAction = MoveRow1Right;
+                RightButtonClickAction = MoveRow1Right;
                 break;
 
             case ButtonFunctionalityType.MoveRow2Left:
-                RightButtonClicAction = MoveRow2Left;
+                RightButtonClickAction = MoveRow2Left;
                 break;
 
             case ButtonFunctionalityType.MoveRow2Right:
-                RightButtonClicAction = MoveRow2Right;
+                RightButtonClickAction = MoveRow2Right;
                 break;
 
             case ButtonFunctionalityType.MoveRow3Left:
-                RightButtonClicAction = MoveRow3Left;
+                RightButtonClickAction = MoveRow3Left;
                 break;
 
             case ButtonFunctionalityType.MoveRow3Right:
-                RightButtonClicAction = MoveRow3Right;
+                RightButtonClickAction = MoveRow3Right;
                 break;
         }
     }
@@ -159,7 +159,7 @@ public class GameplayUIController : MonoBehaviour
 
     public void OnRightButtonClicked()
     {
-        RightButtonClicAction();
+        RightButtonClickAction();
     }
 
     public void OnTalkButtonClicked()

@@ -14,6 +14,7 @@ public class GridController : MonoBehaviour
     public int ySize = 4;
 
     [Header("References")]
+    public GameplayManager GameplayManager;
     public List<TileController> Tiles;
 
     private bool isAnimationPlayingNow = false;
@@ -30,6 +31,27 @@ public class GridController : MonoBehaviour
     {
         if (isAnimationPlayingNow == true)
             return;
+
+        ButtonFunctionalityType type = ButtonFunctionalityType.MoveColumn0Down;
+        switch (columnIndex)
+        {
+            case 0:
+                type = ButtonFunctionalityType.MoveColumn0Up;
+                break;
+
+            case 1:
+                type = ButtonFunctionalityType.MoveColumn1Up;
+                break;
+
+            case 2:
+                type = ButtonFunctionalityType.MoveColumn2Up;
+                break;
+
+            case 3:
+                type = ButtonFunctionalityType.MoveColumn3Up;
+                break;
+        }
+        GameplayManager.SendBoardActionInitiated(type);
 
         GetTileByIndex(columnIndex, 0).SetVisualPositionY(GetInvisibleBottomYPosition());
         GetTileByIndex(columnIndex, 0).MoveTo(Direction.Up, TilePositioningCoefficient, SlideAnimationDuration);
@@ -57,6 +79,8 @@ public class GridController : MonoBehaviour
             ReassignAllTilesVisualGameObjects();
 
             isAnimationPlayingNow = false;
+
+            CheckHandleFinished();
         }));
     }
 
@@ -64,6 +88,27 @@ public class GridController : MonoBehaviour
     {
         if (isAnimationPlayingNow == true)
             return;
+
+        ButtonFunctionalityType type = ButtonFunctionalityType.MoveColumn0Down;
+        switch (columnIndex)
+        {
+            case 0:
+                type = ButtonFunctionalityType.MoveColumn0Down;
+                break;
+
+            case 1:
+                type = ButtonFunctionalityType.MoveColumn1Down;
+                break;
+
+            case 2:
+                type = ButtonFunctionalityType.MoveColumn2Down;
+                break;
+
+            case 3:
+                type = ButtonFunctionalityType.MoveColumn3Down;
+                break;
+        }
+        GameplayManager.SendBoardActionInitiated(type);
 
         GetTileByIndex(columnIndex, 3).SetVisualPositionY(GetInvisibleTopYPosition());
         GetTileByIndex(columnIndex, 0).MoveTo(Direction.Down, TilePositioningCoefficient, SlideAnimationDuration);
@@ -91,6 +136,8 @@ public class GridController : MonoBehaviour
             ReassignAllTilesVisualGameObjects();
 
             isAnimationPlayingNow = false;
+
+            CheckHandleFinished();
         }));
     }
 
@@ -98,6 +145,27 @@ public class GridController : MonoBehaviour
     {
         if (isAnimationPlayingNow == true)
             return;
+
+        ButtonFunctionalityType type = ButtonFunctionalityType.MoveColumn0Down;
+        switch (rowIndex)
+        {
+            case 0:
+                type = ButtonFunctionalityType.MoveRow0Left;
+                break;
+
+            case 1:
+                type = ButtonFunctionalityType.MoveRow1Left;
+                break;
+
+            case 2:
+                type = ButtonFunctionalityType.MoveRow2Left;
+                break;
+
+            case 3:
+                type = ButtonFunctionalityType.MoveRow3Left;
+                break;
+        }
+        GameplayManager.SendBoardActionInitiated(type);
 
         GetTileByIndex(0, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(1, rowIndex).MoveTo(Direction.Left, TilePositioningCoefficient, SlideAnimationDuration);
@@ -124,6 +192,8 @@ public class GridController : MonoBehaviour
             ReassignAllTilesVisualGameObjects();
 
             isAnimationPlayingNow = false;
+
+            CheckHandleFinished();
         }));
     }
 
@@ -131,6 +201,27 @@ public class GridController : MonoBehaviour
     {
         if (isAnimationPlayingNow == true)
             return;
+
+        ButtonFunctionalityType type = ButtonFunctionalityType.MoveColumn0Down;
+        switch (rowIndex)
+        {
+            case 0:
+                type = ButtonFunctionalityType.MoveRow0Right;
+                break;
+
+            case 1:
+                type = ButtonFunctionalityType.MoveRow1Right;
+                break;
+
+            case 2:
+                type = ButtonFunctionalityType.MoveRow2Right;
+                break;
+
+            case 3:
+                type = ButtonFunctionalityType.MoveRow3Right;
+                break;
+        }
+        GameplayManager.SendBoardActionInitiated(type);
 
         GetTileByIndex(0, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
         GetTileByIndex(1, rowIndex).MoveTo(Direction.Right, TilePositioningCoefficient, SlideAnimationDuration);
@@ -157,6 +248,8 @@ public class GridController : MonoBehaviour
             ReassignAllTilesVisualGameObjects();
 
             isAnimationPlayingNow = false;
+
+            CheckHandleFinished();
         }));
     }
 
@@ -169,6 +262,7 @@ public class GridController : MonoBehaviour
         if (TestPath(Tiles, xSize, ySize))
         {
             Debug.LogError("found path");
+            GameplayManager.SendGameFinished();
         }
         else
         {
@@ -355,5 +449,14 @@ public class GridController : MonoBehaviour
         Debug.Log(builder.ToString());
 
         return path.Count > 0;
+    }
+
+    private void CheckHandleFinished()
+    {
+        if (TestPath(Tiles, xSize, ySize))
+        {
+            Debug.LogError("found path");
+            GameplayManager.SendGameFinished();
+        }
     }
 }

@@ -323,6 +323,7 @@ MonoBehaviour:
   SlideAnimationDuration: 1
   xSize: 4
   ySize: 4
+  GameplayManager: {fileID: 1788672869}
   Tiles:
   - {fileID: 1427289998}
   - {fileID: 1454136027}
@@ -340,10 +341,6 @@ MonoBehaviour:
   - {fileID: 761608705}
   - {fileID: 485539507}
   - {fileID: 203697426}
-  VisibleTopLeft: {fileID: 0}
-  VisibleTopRight: {fileID: 0}
-  VisibleBottomLeft: {fileID: 0}
-  VisibleBottomRight: {fileID: 0}
 --- !u!1 &319083615
 GameObject:
   m_ObjectHideFlags: 0

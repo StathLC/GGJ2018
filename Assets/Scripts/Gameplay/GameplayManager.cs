@@ -18,9 +18,6 @@ public class GameplayManager : MonoBehaviour
     void Start()
     {
         Grid.Initialize(CreateLevel1());
-        //UIController.AssignLeftButtonFunctionality(ButtonFunctionalityType.MoveColumn3Up);
-        //UIController.AssignRightButtonFunctionality(ButtonFunctionalityType.MoveRow2Left);
-        //AssignPlayerIndexForCamera(PlayerIndex);
 
         if (PhotonNetwork.isMasterClient == true)
         {
@@ -30,21 +27,28 @@ public class GameplayManager : MonoBehaviour
 
     void OnEnable()
     {
-        PhotonNetwork.OnEventCall += PhotonNetwork_OnEventCall;
-
         NetworkController.Instance.OnAssignPlayerIndex += NetworkContoller_OnAssignPlayerIndex;
         NetworkController.Instance.OnAssignButtonFunctionalities += NetworkController_OnAssignButtonFunctionalities;
+        NetworkController.Instance.OnBoardActionInitiated += NetworkController_OnBoardActionInitiated;
     }
 
     void OnDisable()
     {
-        PhotonNetwork.OnEventCall -= PhotonNetwork_OnEventCall;
-
         NetworkController.Instance.OnAssignPlayerIndex -= NetworkContoller_OnAssignPlayerIndex;
         NetworkController.Instance.OnAssignButtonFunctionalities -= NetworkController_OnAssignButtonFunctionalities;
     }
 
 
+
+    public void SendBoardActionInitiated(ButtonFunctionalityType type)
+    {
+        NetworkController.Instance.SendBoardActionInitiated(type);
+    }
+
+    public void SendGameFinished()
+    {
+        NetworkController.Instance.SendCompletionMessage(true);
+    }
 
     private Level CreateLevel1()
     {
@@ -110,38 +114,13 @@ public class GameplayManager : MonoBehaviour
     private IEnumerator InitializeAsMaster()
     {
         // Delay
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         NetworkController.Instance.SendPlayerIndicesToPlayers();
         NetworkController.Instance.SendButtonFunctionalitiesToPlayers();
     }
 
 
-
-    private void PhotonNetwork_OnEventCall(byte eventCode, object content, int senderId)
-    {
-        // Assign player indices.
-        if (eventCode == 1)
-        {
-            PhotonPlayer sender = PhotonPlayer.Find(senderId);  // who sent this?
-            Debug.Log("Assign player index event received, sender is: " + sender.NickName + " master?: " + sender.IsMasterClient);
-
-            Dictionary<int, PlayerIndex> objDict = content as Dictionary<int, PlayerIndex>;
-            PlayerIndex playerIndex = objDict[PhotonNetwork.player.ID];
-
-            AssignPlayerIndex(playerIndex);
-        }
-
-        // Assign button functionalities.
-        if (eventCode == 2)
-        {
-            PhotonPlayer sender = PhotonPlayer.Find(senderId);  // who sent this?
-            Debug.Log("Assign button functionalities event received, sender is: " + sender.NickName + " master?: " + sender.IsMasterClient);
-
-            Dictionary<int, ButtonFunctionalityType[]> objDict = content as Dictionary<int, ButtonFunctionalityType[]>;
-            AssignButtonFunctionalities(objDict[PhotonNetwork.player.ID]);
-        }
-    }
 
     private void NetworkContoller_OnAssignPlayerIndex(PlayerIndex playerIndex)
     {
@@ -151,5 +130,75 @@ public class GameplayManager : MonoBehaviour
     private void NetworkController_OnAssignButtonFunctionalities(ButtonFunctionalityType[] types)
     {
         AssignButtonFunctionalities(types);
+    }
+
+    private void NetworkController_OnBoardActionInitiated(ButtonFunctionalityType type)
+    {
+        switch (type)
+        {
+            case ButtonFunctionalityType.MoveColumn0Down:
+                Grid.MoveColumnDown(0);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn0Up:
+                Grid.MoveColumnUp(0);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn1Down:
+                Grid.MoveColumnDown(1);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn1Up:
+                Grid.MoveColumnUp(1);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn2Down:
+                Grid.MoveColumnDown(2);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn2Up:
+                Grid.MoveColumnUp(2);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn3Down:
+                Grid.MoveColumnDown(3);
+                break;
+
+            case ButtonFunctionalityType.MoveColumn3Up:
+                Grid.MoveColumnUp(3);
+                break;
+
+            case ButtonFunctionalityType.MoveRow0Left:
+                Grid.MoveRowLeft(0);
+                break;
+
+            case ButtonFunctionalityType.MoveRow0Right:
+                Grid.MoveRowRight(0);
+                break;
+
+            case ButtonFunctionalityType.MoveRow1Left:
+                Grid.MoveRowLeft(1);
+                break;
+
+            case ButtonFunctionalityType.MoveRow1Right:
+                Grid.MoveRowRight(1);
+                break;
+
+            case ButtonFunctionalityType.MoveRow2Left:
+                Grid.MoveRowLeft(2);
+                break;
+
+            case ButtonFunctionalityType.MoveRow2Right:
+                Grid.MoveRowRight(2);
+                break;
+
+            case ButtonFunctionalityType.MoveRow3Left:
+                Grid.MoveRowLeft(3);
+                break;
+
+            case ButtonFunctionalityType.MoveRow3Right:
+                Grid.MoveRowRight(3);
+                break;
+        }
     }
 }
