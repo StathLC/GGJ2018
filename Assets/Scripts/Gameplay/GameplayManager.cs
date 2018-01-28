@@ -21,8 +21,7 @@ public class GameplayManager : MonoBehaviour
 
         if (PhotonNetwork.isMasterClient == true)
         {
-            Grid.Initialize(CreateLevel1());
-            StartCoroutine(InitializeAsMaster());
+            CreateLevel1();
         }
     }
 
@@ -37,6 +36,10 @@ public class GameplayManager : MonoBehaviour
     private void Instance_OnLevelGenerated(Level level)
     {
         Grid.Initialize(level);
+        if (PhotonNetwork.isMasterClient == true)
+        {
+            StartCoroutine(InitializeAsMaster());
+        }
     }
 
     void OnDisable()

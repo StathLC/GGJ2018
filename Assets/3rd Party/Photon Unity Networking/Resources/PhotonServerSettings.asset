@@ -42,4 +42,5 @@ MonoBehaviour:
   - ReceivedAssignButtonFunctionalities
   - ReceivedAssignPlayerIndices
   - ReceivedBoardActionInitiated
+  - ReceiveMap
   DisableAutoOpenWizard: 1

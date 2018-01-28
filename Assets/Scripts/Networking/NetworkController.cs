@@ -315,7 +315,7 @@ public class NetworkController : Photon.PunBehaviour
         if (PhotonNetwork.isMasterClient)
         {
             var json = JsonConvert.SerializeObject(level);
-            photonView.RPC("ReceiveMap", PhotonTargets.Others, json);
+            photonView.RPC("ReceiveMap", PhotonTargets.All, json);
         }
     }
 
