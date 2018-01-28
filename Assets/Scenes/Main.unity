@@ -22460,7 +22460,7 @@ Prefab:
     - target: {fileID: 114304295293702792, guid: 44ed597789ffc174b87bf2faa2a5816b,
         type: 2}
       propertyPath: MaxPlayers
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114044919260717954, guid: 44ed597789ffc174b87bf2faa2a5816b,
         type: 2}
